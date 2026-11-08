@@ -143,6 +143,8 @@ const T = {
     familyLinkText: 'Wer möchte, kann sich mit diesem Link selbst eintragen.',
     share: 'Teilen', copy: 'Kopieren',
     participants: 'Teilnehmer',
+    shareSignal: 'Teilen (Signal, SMS …)',
+    sendHelp: '💬 WhatsApp · 📤 Teilen – z. B. Signal oder SMS · 📋 Nachricht kopieren',
     groupsInfo: 'Personen in derselben Gruppe ziehen sich nicht gegenseitig (z. B. Paare oder „Kolumbien“).',
     group: 'Gruppe', noGroup: 'keine Gruppe', lang: 'Sprache',
     addPerson: 'Person hinzufügen', add: 'Hinzufügen',
@@ -197,6 +199,8 @@ const T = {
     familyLinkText: 'Quien quiera puede inscribirse solo con este enlace.',
     share: 'Compartir', copy: 'Copiar',
     participants: 'Participantes',
+    shareSignal: 'Compartir (Signal, SMS …)',
+    sendHelp: '💬 WhatsApp · 📤 Compartir – p. ej. Signal o SMS · 📋 Copiar mensaje',
     groupsInfo: 'Las personas del mismo grupo no se pueden sacar entre sí (p. ej. parejas o «Kolumbien»).',
     group: 'Grupo', noGroup: 'sin grupo', lang: 'Idioma',
     addPerson: 'Agregar persona', add: 'Agregar',
@@ -451,7 +455,7 @@ function renderAdmin(){
     </div>
 
     <h2>${t().participants}</h2>
-    <p class="sub small">👥 ${t().groupsInfo}</p>
+    <p class="sub small">👥 ${t().groupsInfo}<br>${t().sendHelp}</p>
     <div class="card">
       ${ps.map(p => {
         const url = base() + '#p=' + p.token;
@@ -473,6 +477,7 @@ function renderAdmin(){
           </div>
           <div class="acts">
             <a class="iconbtn" style="display:inline-flex;align-items:center;text-decoration:none" title="${t().whatsapp}" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msg)}">💬</a>
+            <button class="iconbtn" title="${t().shareSignal}" data-share="${esc(msg)}">📤</button>
             <button class="iconbtn" title="${t().copy}" data-copy="${esc(msg)}">📋</button>
             ${locked ? '' : `<button class="iconbtn" title="${t().edit}" data-edit="${p.id}">✏️</button>`}
           </div>
@@ -523,6 +528,7 @@ function renderAdmin(){
   $('saveEv').onclick = async () => { if (await adminDo('admin_update_event', { p_name:$('en').value, p_budget:$('eb').value, p_date:$('ed').value || null })) toast(t().saved); };
   $('shareJoin').onclick = () => shareText(t().familyMsg(ev.name, joinUrl));
   app.querySelectorAll('[data-copy]').forEach(b => b.onclick = () => copy(b.dataset.copy));
+  app.querySelectorAll('[data-share]').forEach(b => b.onclick = () => shareText(b.dataset.share));
   app.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => { editing = editing === b.dataset.edit ? null : b.dataset.edit; renderAdmin(); });
   app.querySelectorAll('[data-done]').forEach(b => b.onclick = () => { editing = null; renderAdmin(); });
   app.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { editing = null; adminDo('admin_remove', { p_id:b.dataset.rm }, t().confirmRemove(byId[b.dataset.rm].name)); });
