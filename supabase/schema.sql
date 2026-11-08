@@ -1,6 +1,7 @@
 -- Wichteln: Datenbank-Schema (Supabase / Postgres)
 -- Zugriff erfolgt ausschließlich über die SECURITY-DEFINER-Funktionen.
 -- Die Tabellen haben RLS ohne Policies, sind also direkt nicht lesbar.
+-- Gleiches "team" (z.B. ein Paar oder 'Kolumbien') => diese Personen ziehen sich nicht gegenseitig.
 
 create extension if not exists pgcrypto with schema extensions;
 
@@ -44,28 +45,28 @@ create index on public.exclusions(receiver_id);
 alter table public.events enable row level security;
 alter table public.participants enable row level security;
 alter table public.exclusions enable row level security;
-revoke all on public.events, public.participants, public.exclusions from anon, authenticated;
 
-create or replace function public._tok() returns text
+-- Hilfsfunktionen im Schema "private" (nicht über die API erreichbar)
+create schema if not exists private;
+
+create or replace function private.tok() returns text
 language sql volatile set search_path = '' as $$
   select translate(encode(extensions.gen_random_bytes(12), 'base64'), '+/=', '-_')
 $$;
-revoke all on function public._tok() from public, anon, authenticated;
 
-create or replace function public._event(p_admin text) returns public.events
-language plpgsql security definer set search_path = '' as $$
+create or replace function private.event_by_admin(p_admin text) returns public.events
+language plpgsql set search_path = '' as $$
 declare e public.events;
 begin
   select * into e from public.events where admin_token = p_admin;
   if not found then raise exception 'not_found'; end if;
   return e;
 end $$;
-revoke all on function public._event(text) from public, anon, authenticated;
 
 -- ===== Organisatorin (alles außer der Zuteilung) =====
 create or replace function public.admin_get(p_admin text) returns jsonb
 language plpgsql security definer set search_path = '' as $$
-declare e public.events := public._event(p_admin);
+declare e public.events := private.event_by_admin(p_admin);
 begin
   return jsonb_build_object(
     'event', jsonb_build_object('name', e.name, 'budget', e.budget, 'gift_date', e.gift_date,
@@ -80,7 +81,7 @@ end $$;
 
 create or replace function public.admin_update_event(p_admin text, p_name text, p_budget text, p_date date)
 returns void language plpgsql security definer set search_path = '' as $$
-declare e public.events := public._event(p_admin);
+declare e public.events := private.event_by_admin(p_admin);
 begin
   update public.events set name = coalesce(nullif(trim(p_name), ''), name),
          budget = nullif(trim(p_budget), ''), gift_date = p_date
@@ -89,7 +90,7 @@ end $$;
 
 create or replace function public.admin_add(p_admin text, p_name text, p_lang text, p_team text)
 returns text language plpgsql security definer set search_path = '' as $$
-declare e public.events := public._event(p_admin); t text := public._tok();
+declare e public.events := private.event_by_admin(p_admin); t text := private.tok();
 begin
   if e.drawn_at is not null then raise exception 'already_drawn'; end if;
   if coalesce(trim(p_name), '') = '' then raise exception 'name_required'; end if;
@@ -97,13 +98,13 @@ begin
     raise exception 'name_taken';
   end if;
   insert into public.participants(event_id, name, token, lang, team)
-  values (e.id, trim(p_name), t, coalesce(nullif(p_lang, ''), 'de'), nullif(trim(p_team), ''));
+  values (e.id, left(trim(p_name), 60), t, coalesce(nullif(p_lang, ''), 'de'), nullif(trim(p_team), ''));
   return t;
 end $$;
 
 create or replace function public.admin_set_participant(p_admin text, p_id uuid, p_lang text, p_team text)
 returns void language plpgsql security definer set search_path = '' as $$
-declare e public.events := public._event(p_admin);
+declare e public.events := private.event_by_admin(p_admin);
 begin
   if e.drawn_at is not null then raise exception 'already_drawn'; end if;
   update public.participants set lang = coalesce(nullif(p_lang, ''), lang), team = nullif(trim(p_team), '')
@@ -112,26 +113,28 @@ end $$;
 
 create or replace function public.admin_remove(p_admin text, p_id uuid)
 returns void language plpgsql security definer set search_path = '' as $$
-declare e public.events := public._event(p_admin);
+declare e public.events := private.event_by_admin(p_admin);
 begin
   if e.drawn_at is not null then raise exception 'already_drawn'; end if;
   delete from public.participants where id = p_id and event_id = e.id;
 end $$;
 
-create or replace function public.admin_set_exclusion(p_admin text, p_giver uuid, p_receiver uuid, p_on boolean)
+-- Ausschluss gilt immer in beide Richtungen
+create or replace function public.admin_set_exclusion(p_admin text, p_a uuid, p_b uuid, p_on boolean)
 returns void language plpgsql security definer set search_path = '' as $$
-declare e public.events := public._event(p_admin);
+declare e public.events := private.event_by_admin(p_admin);
 begin
   if e.drawn_at is not null then raise exception 'already_drawn'; end if;
   if p_on then
     insert into public.exclusions(event_id, giver_id, receiver_id)
-    select e.id, p_giver, p_receiver
-     where p_giver <> p_receiver
-       and exists (select 1 from public.participants where id = p_giver and event_id = e.id)
-       and exists (select 1 from public.participants where id = p_receiver and event_id = e.id)
+    select e.id, g, r from (values (p_a, p_b), (p_b, p_a)) v(g, r)
+     where p_a <> p_b
+       and exists (select 1 from public.participants where id = p_a and event_id = e.id)
+       and exists (select 1 from public.participants where id = p_b and event_id = e.id)
     on conflict do nothing;
   else
-    delete from public.exclusions where event_id = e.id and giver_id = p_giver and receiver_id = p_receiver;
+    delete from public.exclusions where event_id = e.id
+       and ((giver_id = p_a and receiver_id = p_b) or (giver_id = p_b and receiver_id = p_a));
   end if;
 end $$;
 
@@ -139,13 +142,13 @@ end $$;
 create or replace function public.admin_draw(p_admin text) returns void
 language plpgsql security definer set search_path = '' as $$
 declare
-  e public.events := public._event(p_admin);
+  e public.events := private.event_by_admin(p_admin);
   ids uuid[]; teams text[]; perm uuid[]; used uuid[]; pick uuid;
   n int; attempt int; i int; ok boolean;
 begin
   perform 1 from public.events where id = e.id for update;
   if e.drawn_at is not null then raise exception 'already_drawn'; end if;
-  select array_agg(id order by id), array_agg(coalesce(team, '') order by id)
+  select array_agg(id order by id), array_agg(coalesce(lower(trim(team)), '') order by id)
     into ids, teams from public.participants where event_id = e.id;
   n := coalesce(array_length(ids, 1), 0);
   if n < 3 then raise exception 'too_few'; end if;
@@ -175,7 +178,7 @@ end $$;
 
 create or replace function public.admin_reset_draw(p_admin text) returns void
 language plpgsql security definer set search_path = '' as $$
-declare e public.events := public._event(p_admin);
+declare e public.events := private.event_by_admin(p_admin);
 begin
   update public.participants set receiver_id = null, seen_at = null where event_id = e.id;
   update public.events set drawn_at = null where id = e.id;
@@ -193,7 +196,7 @@ end $$;
 
 create or replace function public.join_event(p_code text, p_name text, p_lang text, p_wish text)
 returns text language plpgsql security definer set search_path = '' as $$
-declare e public.events; t text := public._tok();
+declare e public.events; t text := private.tok();
 begin
   select * into e from public.events where join_code = p_code;
   if not found then raise exception 'not_found'; end if;
