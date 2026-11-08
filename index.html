@@ -111,7 +111,7 @@ const T = {
   de: {
     brand: '🎄 Wichteln',
     hello: n => `Hallo ${n}! 👋`,
-    budget: 'Budget', date: 'Geschenkübergabe', people: 'Teilnehmer',
+    budget: 'Wert des Geschenks', budgetVal: v => `genau ${v}`, budgetNote: 'Nicht weniger und nicht mehr 🙂', date: 'Geschenkübergabe', people: 'Teilnehmer',
     notDrawn: 'Noch nicht ausgelost', drawn: 'Ausgelost 🎉',
     waitTitle: 'Die Auslosung kommt bald',
     waitText: 'Sobald ausgelost wurde, siehst du hier, wen du beschenkst. Öffne einfach später wieder diesen Link.',
@@ -182,7 +182,7 @@ const T = {
   es: {
     brand: '🎄 Amigo Secreto',
     hello: n => `¡Hola ${n}! 👋`,
-    budget: 'Presupuesto', date: 'Entrega de regalos', people: 'Participantes',
+    budget: 'Valor del regalo', budgetVal: v => `exactamente ${v}`, budgetNote: 'Ni menos ni más 🙂', date: 'Entrega de regalos', people: 'Participantes',
     notDrawn: 'Todavía no se ha sorteado', drawn: 'Sorteo realizado 🎉',
     waitTitle: 'El sorteo será pronto',
     waitText: 'Cuando se haga el sorteo, aquí verás a quién le das el regalo. Solo vuelve a abrir este enlace más tarde.',
@@ -347,7 +347,7 @@ function renderError(){
 
 function infoCards(ev, count){
   return `<div class="grid2">
-    <div class="card"><p class="label">${t().budget}</p><p class="value">${esc(ev.budget || '–')}</p></div>
+    <div class="card"><p class="label">${t().budget}</p><p class="value">${ev.budget ? esc(t().budgetVal(ev.budget)) : '–'}</p>${ev.budget ? `<p class="small muted" style="margin:2px 0 0">${t().budgetNote}</p>` : ''}</div>
     <div class="card"><p class="label">${t().date}</p><p class="value">${esc(fmtDate(ev.gift_date))}</p></div>
   </div>
   ${count != null ? `<div class="status ${ev.drawn ? 'done' : ''}">${ev.drawn ? t().drawn : t().notDrawn} · ${count} ${t().people}</div>` : ''}`;
