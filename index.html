@@ -21,7 +21,7 @@ html,body{margin:0}
 body{
   background:radial-gradient(1200px 600px at 50% -200px,#3b3a86 0%,var(--bg) 60%) fixed,var(--bg);
   color:#fff; font-family:Nunito,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-  font-size:18px; line-height:1.45; min-height:100vh; -webkit-font-smoothing:antialiased;
+  font-size:19px; line-height:1.5; min-height:100vh; -webkit-font-smoothing:antialiased;
 }
 .snow{position:fixed;inset:0;pointer-events:none;background-image:
   radial-gradient(2px 2px at 20px 30px,#fff8,transparent),radial-gradient(2px 2px at 140px 80px,#fff6,transparent),
@@ -30,9 +30,16 @@ body{
 .wrap{max-width:640px;margin:0 auto;padding:16px 16px 64px;position:relative}
 header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0 10px}
 .brand{font-family:"Mountains of Christmas",cursive;font-size:30px;line-height:1.1;margin:0}
-.langs{display:flex;gap:6px;flex-shrink:0}
-.langs button{background:#ffffff1f;border:1px solid #ffffff33;color:#fff;border-radius:999px;padding:6px 12px;font:inherit;font-size:15px;cursor:pointer}
-.langs button.on{background:#fff;color:var(--ink);font-weight:800}
+.langbar{background:#ffffff14;border:1px solid #ffffff2a;border-radius:16px;padding:10px 12px;margin:0 0 6px}
+.langbar .lt{display:block;font-size:16px;color:#e4e4f7;margin:0 0 8px;font-weight:600}
+.langs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.langs button{background:transparent;border:2px solid #ffffff55;color:#fff;border-radius:12px;padding:10px 8px;font:inherit;font-size:19px;font-weight:700;cursor:pointer;min-height:52px}
+.langs button.on{background:#fff;color:var(--ink);border-color:#fff}
+.steps{margin:0;padding-left:0;list-style:none;counter-reset:st}
+.steps li{counter-increment:st;display:flex;gap:12px;align-items:flex-start;margin:10px 0;font-size:19px}
+.steps li::before{content:counter(st);flex:0 0 34px;height:34px;border-radius:50%;background:var(--red);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+.ok-box{background:#e3f3ed;color:#1f5444;border-radius:var(--radius);padding:18px;margin:12px 0;font-size:20px}
+.msgbox{white-space:pre-wrap;background:#f4f4f9;border-radius:10px;padding:10px 12px;font-size:15px;max-height:220px;overflow:auto;margin:8px 0}
 h2{font-size:21px;margin:26px 4px 10px;display:flex;align-items:center;gap:10px}
 h2::after{content:"";flex:1;height:1px;background:#ffffff2a}
 .card{background:var(--card);color:var(--ink);border-radius:var(--radius);padding:18px;margin:12px 0;box-shadow:0 6px 20px #0003}
@@ -94,11 +101,14 @@ details summary{cursor:pointer;font-weight:700}
 <div class="wrap">
   <header>
     <h1 class="brand" id="brand">🎄 Wichteln</h1>
-    <div class="langs" role="group" aria-label="Sprache / Idioma">
-      <button data-l="de" type="button">DE</button>
-      <button data-l="es" type="button">ES</button>
-    </div>
   </header>
+  <div class="langbar">
+    <span class="lt">🌐 Idioma · Sprache – toca aquí para cambiar / hier tippen zum Wechseln</span>
+    <div class="langs" role="group" aria-label="Idioma / Sprache">
+      <button data-l="es" type="button">🇨🇴 Español</button>
+      <button data-l="de" type="button">🇩🇪 Deutsch</button>
+    </div>
+  </div>
   <main id="app"><p class="sub">…</p></main>
 </div>
 <div class="toast" id="toast" role="status"></div>
@@ -114,6 +124,18 @@ const T = {
     budget: 'Wert des Geschenks', budgetVal: v => `genau ${v}`, budgetNote: 'Nicht weniger und nicht mehr 🙂', date: 'Geschenkübergabe', people: 'Teilnehmer',
     notDrawn: 'Noch nicht ausgelost', drawn: 'Ausgelost 🎉',
     waitTitle: 'Die Auslosung kommt bald',
+    readyTitle: n => `✅ Fertig, ${n}! Du bist dabei.`,
+    readyText: 'Mehr musst du jetzt nicht machen. Wenn Paola ausgelost hat, öffnest du einfach wieder diesen Link und tippst auf das Geschenk 🎁.',
+    optional: '(freiwillig)',
+    aboutTitle: 'Was ist das?',
+    about: 'Paola hat diese Seite extra für unsere Familie gemacht. In der anderen Wichtel-App muss man sich registrieren – für unsere Familie in Kolumbien war das zu kompliziert. Hier geht es ganz einfach: ohne Anmeldung, ohne Passwort.',
+    stepsTitle: 'So geht\'s',
+    step1: 'Tippe unten auf deinen Namen.',
+    step2: 'Bestätige mit „OK“.',
+    step3: 'Fertig! Nach der Auslosung öffnest du diesen Link wieder und tippst auf das Geschenk 🎁.',
+    groupMsgTitle: '✉️ Nachricht für die Familie',
+    groupMsgText: 'Fertiger Text mit Erklärung auf Spanisch und Deutsch – einfach kopieren und in WhatsApp oder Signal einfügen.',
+    copyBoth: 'Beide Sprachen kopieren', copyEs: 'Nur Spanisch', copyDe: 'Nur Deutsch',
     waitText: 'Sobald ausgelost wurde, siehst du hier, wen du beschenkst. Öffne einfach später wieder diesen Link.',
     tapToReveal: 'Tippe auf das Geschenk, um zu sehen, wen du beschenkst',
     youGiftTo: 'Du beschenkst', theirWish: 'Geschenkhinweis', noWish: 'Noch kein Hinweis eingetragen – schau später nochmal vorbei.',
@@ -185,6 +207,18 @@ const T = {
     budget: 'Valor del regalo', budgetVal: v => `exactamente ${v}`, budgetNote: 'Ni menos ni más 🙂', date: 'Entrega de regalos', people: 'Participantes',
     notDrawn: 'Todavía no se ha sorteado', drawn: 'Sorteo realizado 🎉',
     waitTitle: 'El sorteo será pronto',
+    readyTitle: n => `✅ ¡Listo, ${n}! Ya estás participando.`,
+    readyText: 'Por ahora no tienes que hacer nada más. Cuando Paola haga el sorteo, vuelve a abrir este mismo enlace y toca el regalo 🎁.',
+    optional: '(opcional)',
+    aboutTitle: '¿Qué es esto?',
+    about: 'Paola hizo esta página especialmente para nuestra familia. En la otra aplicación del Amigo Secreto hay que registrarse y para la familia en Colombia era muy complicado. Aquí es muy fácil: sin registro y sin contraseña.',
+    stepsTitle: 'Así funciona',
+    step1: 'Toca tu nombre aquí abajo.',
+    step2: 'Confirma con «Aceptar».',
+    step3: '¡Listo! Después del sorteo vuelves a abrir este enlace y tocas el regalo 🎁.',
+    groupMsgTitle: '✉️ Mensaje para la familia',
+    groupMsgText: 'Texto listo con la explicación en español y alemán – solo cópialo y pégalo en WhatsApp o Signal.',
+    copyBoth: 'Copiar los dos idiomas', copyEs: 'Solo español', copyDe: 'Solo alemán',
     waitText: 'Cuando se haga el sorteo, aquí verás a quién le das el regalo. Solo vuelve a abrir este enlace más tarde.',
     tapToReveal: 'Toca el regalo para ver quién es tu amigo secreto',
     youGiftTo: 'Tu amigo secreto es', theirWish: 'Su pista para el regalo', noWish: 'Todavía no ha escrito una pista – vuelve a mirar más tarde.',
@@ -294,6 +328,44 @@ function fmtDate(d){
   const [y,m,day] = d.split('-').map(Number);
   return new Date(y, m-1, day).toLocaleDateString(lang === 'es' ? 'es-CO' : 'de-DE', { day:'numeric', month:'long', year:'numeric' });
 }
+function fmtDateL(d, l){
+  if (!d) return '';
+  const [y,m,day] = d.split('-').map(Number);
+  return new Date(y, m-1, day).toLocaleDateString(l === 'es' ? 'es-CO' : 'de-DE', { day:'numeric', month:'long' });
+}
+function groupMsg(l, ev, url){
+  const b = ev.budget, dt = fmtDateL(ev.gift_date, l);
+  if (l === 'es') return `¡Hola familia! 🎄🎁
+
+Este año hacemos el Amigo Secreto con una página sencilla que hice especialmente para nosotros. En la otra aplicación hay que registrarse y para la familia en Colombia fue muy complicado – por eso esta solución fácil, sin registro y sin contraseña.
+
+Así funciona:
+1. Abre este enlace: ${url}
+2. Toca tu nombre y confirma con «Aceptar».
+3. Si quieres, escribe una pista para tu regalo (pasatiempos, talla, color favorito …).
+4. Después del sorteo te aviso. Entonces vuelves a abrir el mismo enlace y tocas el regalo 🎁 – ahí ves a quién le das el regalo.
+${b ? `\nEl regalo debe costar exactamente ${b}.` : ''}${dt ? `\nEntrega de regalos: ${dt}.` : ''}
+
+Arriba en la página puedes cambiar el idioma entre español y alemán.
+
+Un abrazo, Paola`;
+  return `Hallo ihr Lieben! 🎄🎁
+
+Dieses Jahr machen wir unser Wichteln über eine einfache Seite, die ich extra für uns gemacht habe. Bei der anderen App muss man sich registrieren, und für unsere Familie in Kolumbien war das zu kompliziert – deshalb diese einfache Lösung, ganz ohne Anmeldung und Passwort.
+
+So geht's:
+1. Diesen Link öffnen: ${url}
+2. Auf deinen Namen tippen und mit „OK“ bestätigen.
+3. Wenn du magst, einen Geschenkhinweis schreiben (Hobbys, Größe, Lieblingsfarbe …).
+4. Nach der Auslosung sage ich Bescheid. Dann denselben Link nochmal öffnen und auf das Geschenk 🎁 tippen – dort siehst du, wen du beschenkst.
+${b ? `\nDas Geschenk soll genau ${b} kosten.` : ''}${dt ? `\nGeschenkübergabe: ${dt}.` : ''}
+
+Oben auf der Seite kann man die Sprache zwischen Spanisch und Deutsch wechseln.
+
+Liebe Grüße, Paola`;
+}
+const bothMsg = (ev, url) => groupMsg('es', ev, url) + '\n\n— — — — —\n\n' + groupMsg('de', ev, url);
+
 function setLang(l, persist){
   lang = l; store.set('lang', l);
   document.documentElement.lang = l;
@@ -360,7 +432,7 @@ function renderMe(){
   const myUrl = base() + '#p=' + tok;
   let drawBlock;
   if (!ev.drawn || !d.receiver){
-    drawBlock = `<div class="card center"><p class="big">⏳ <b>${t().waitTitle}</b></p><p class="muted">${t().waitText}</p></div>`;
+    drawBlock = `<div class="ok-box"><b>${esc(t().readyTitle(d.name))}</b><p style="margin:8px 0 0;font-size:19px">${t().readyText}</p></div>`;
   } else if (!revealed){
     drawBlock = `<div class="card reveal"><button class="gift" id="gift" aria-label="${esc(t().tapToReveal)}">🎁</button>
       <p><b>${t().tapToReveal}</b></p></div>`;
@@ -375,6 +447,12 @@ function renderMe(){
     <p class="sub">${esc(ev.name)}</p>
     ${drawBlock}
     ${infoCards(ev, d.count)}
+    <h2>${t().myWish} <span class="small" style="font-weight:400">${t().optional}</span></h2>
+    <div class="card">
+      <p class="muted small" style="margin-top:0">${t().myWishHint}</p>
+      <textarea id="wish" maxlength="1000" placeholder="${esc(t().wishPh)}">${esc(d.wish)}</textarea>
+      <button class="btn green block" id="saveWish">${t().save}</button>
+    </div>
     <h2>${t().myName}</h2>
     <div class="card">
       <p class="muted small" style="margin-top:0">${t().myNameHint}</p>
@@ -382,12 +460,6 @@ function renderMe(){
         <input type="text" id="myName" maxlength="60" value="${esc(d.name)}" autocomplete="given-name">
         <button class="btn green" id="saveName">${t().save}</button>
       </div>
-    </div>
-    <h2>${t().myWish}</h2>
-    <div class="card">
-      <p class="muted small" style="margin-top:0">${t().myWishHint}</p>
-      <textarea id="wish" maxlength="1000" placeholder="${esc(t().wishPh)}">${esc(d.wish)}</textarea>
-      <button class="btn green block" id="saveWish">${t().save}</button>
     </div>
     <div class="card">
       <p class="small muted" style="margin-top:0">🔖 ${t().keepLink}</p>
@@ -422,7 +494,15 @@ function renderJoin(){
   const free = d.people.filter(p => !p.claimed), taken = d.people.filter(p => p.claimed);
   app.innerHTML = `
     <p class="hello">${esc(t().familyTitle(ev.name))}</p>
-    <p class="sub">${t().whoAreYou}</p>
+    <div class="card">
+      <p class="label" style="font-size:18px">${t().aboutTitle}</p>
+      <p style="margin:4px 0 0">${t().about}</p>
+    </div>
+    <div class="card">
+      <p class="label" style="font-size:18px">${t().stepsTitle}</p>
+      <ol class="steps"><li>${t().step1}</li><li>${t().step2}</li><li>${t().step3}</li></ol>
+    </div>
+    <h2>👇 ${t().whoAreYou}</h2>
     <div class="card">
       ${free.length ? `<div class="grid2" style="margin:0">${free.map(p => `<button class="btn ghost" data-claim="${p.id}" style="min-height:64px;font-size:20px">${esc(p.name)}</button>`).join('')}</div>`
                     : `<p class="muted" style="margin:0">${t().allClaimed}</p>`}
@@ -488,11 +568,18 @@ function renderAdmin(){
     <h2>${t().familyLink}</h2>
     <div class="card">
       <p class="muted small" style="margin-top:0">${t().familyLinkText}</p>
+      <p style="margin:12px 0 0"><b>${t().groupMsgTitle}</b></p>
+      <p class="muted small" style="margin:2px 0 0">${t().groupMsgText}</p>
+      <div class="msgbox">${esc(bothMsg(ev, joinUrl))}</div>
       <p class="small" style="word-break:break-all;background:#f4f4f9;border-radius:10px;padding:8px 10px">${esc(joinUrl)}</p>
       <div class="row">
         <button class="btn sm green" id="shareJoin">📤 ${t().share}</button>
-        <button class="btn sm ghost" id="copyJoin">📋 ${t().copy}</button>
-        <a class="btn sm ghost" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(t().familyMsg(ev.name, joinUrl))}">💬 ${t().whatsapp}</a>
+        <button class="btn sm ghost" id="copyJoin">📋 ${t().copyBoth}</button>
+        <a class="btn sm ghost" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(bothMsg(ev, joinUrl))}">💬 ${t().whatsapp}</a>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn sm ghost" id="copyEs">📋 ${t().copyEs}</button>
+        <button class="btn sm ghost" id="copyDe">📋 ${t().copyDe}</button>
       </div>
     </div>
 
@@ -572,8 +659,10 @@ function renderAdmin(){
 
   const $ = id => document.getElementById(id);
   $('saveEv').onclick = async () => { if (await adminDo('admin_update_event', { p_name:$('en').value, p_budget:$('eb').value, p_date:$('ed').value || null })) toast(t().saved); };
-  $('shareJoin').onclick = () => shareText(t().familyMsg(ev.name, joinUrl));
-  $('copyJoin').onclick = () => copy(t().familyMsg(ev.name, joinUrl));
+  $('shareJoin').onclick = () => shareText(bothMsg(ev, joinUrl));
+  $('copyJoin').onclick = () => copy(bothMsg(ev, joinUrl));
+  $('copyEs').onclick = () => copy(groupMsg('es', ev, joinUrl));
+  $('copyDe').onclick = () => copy(groupMsg('de', ev, joinUrl));
   app.querySelectorAll('[data-copy]').forEach(b => b.onclick = () => copy(b.dataset.copy));
   app.querySelectorAll('[data-release]').forEach(b => b.onclick = () => adminDo('admin_release', { p_id:b.dataset.release }, t().confirmRelease(byId[b.dataset.release].name)));
   app.querySelectorAll('[data-share]').forEach(b => b.onclick = () => shareText(b.dataset.share));
