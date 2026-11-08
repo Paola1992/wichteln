@@ -116,10 +116,11 @@ const T = {
     waitTitle: 'Die Auslosung kommt bald',
     waitText: 'Sobald ausgelost wurde, siehst du hier, wen du beschenkst. Öffne einfach später wieder diesen Link.',
     tapToReveal: 'Tippe auf das Geschenk, um zu sehen, wen du beschenkst',
-    youGiftTo: 'Du beschenkst', theirWish: 'Wunsch / Hinweis', noWish: 'Noch kein Wunsch eingetragen – schau später nochmal vorbei.',
+    youGiftTo: 'Du beschenkst', theirWish: 'Geschenkhinweis', noWish: 'Noch kein Hinweis eingetragen – schau später nochmal vorbei.',
     secret: 'Pssst… nicht verraten! 🤫',
-    myWish: 'Mein Geschenkwunsch', myWishHint: 'Was wünschst du dir? Dein Wichtel sieht diesen Text (optional).',
-    wishPh: 'z. B. Bücher, Schokolade, Socken in Größe 39 …',
+    myWish: 'Mein Geschenkhinweis', myWishHint: 'Hilf deinem Wichtel mit einem kleinen Tipp: Hobbys, Lieblingsfarbe, Größe, was du gar nicht magst … (optional)',
+    wishPh: 'z. B. Ich koche gern, mag Blau, Schuhgröße 39, bitte keine Süßigkeiten …',
+    myName: 'Mein Name', myNameHint: 'So sehen dich die anderen. Du kannst ihn jederzeit ändern.', nameSaved: 'Name geändert ✓', nameInUse: 'Diesen Namen hat schon jemand anderes. Füg z. B. den Nachnamen hinzu.',
     save: 'Speichern', saved: 'Gespeichert ✓',
     keepLink: 'Das ist dein persönlicher Link. Speichere ihn oder füge ihn zum Startbildschirm hinzu – mehr brauchst du nicht.',
     copyLink: 'Meinen Link kopieren', copied: 'Link kopiert ✓',
@@ -146,7 +147,7 @@ const T = {
     group: 'Gruppe', noGroup: 'keine Gruppe', lang: 'Sprache',
     addPerson: 'Person hinzufügen', add: 'Hinzufügen',
     sendLink: 'Link senden', whatsapp: 'WhatsApp',
-    hasWish: 'Wunsch ✓', seen: 'hat nachgeschaut ✓', notSeen: 'noch nicht nachgeschaut',
+    hasWish: 'Hinweis ✓', seen: 'hat nachgeschaut ✓', notSeen: 'noch nicht nachgeschaut',
     remove: 'Entfernen', confirmRemove: n => `${n} wirklich entfernen?`,
     edit: 'Bearbeiten', done: 'Fertig',
     exclusions: 'Zusätzliche Ausschlüsse',
@@ -160,7 +161,7 @@ const T = {
     tooFew: 'Es braucht mindestens 3 Teilnehmer.',
     impossible: 'Mit diesen Ausschlüssen ist keine Auslosung möglich. Bitte entferne einen Ausschluss.',
     alreadyDrawn: 'Es wurde schon ausgelost.',
-    msg: (n, ev, url) => `Hallo ${n}! 🎄 Hier ist dein persönlicher Link zum Wichteln „${ev}“:\n${url}\n\nEinfach öffnen – keine Anmeldung nötig. Dort kannst du deinen Wunsch eintragen und nach der Auslosung sehen, wen du beschenkst. 🎁`,
+    msg: (n, ev, url) => `Hallo ${n}! 🎄 Hier ist dein persönlicher Link zum Wichteln „${ev}“:\n${url}\n\nEinfach öffnen – keine Anmeldung nötig. Dort kannst du deinen Namen anpassen, einen Geschenkhinweis für deinen Wichtel hinterlassen und nach der Auslosung sehen, wen du beschenkst. 🎁`,
     familyMsg: (ev, url) => `🎄 Wichteln „${ev}“ – hier kannst du dich eintragen:\n${url}`,
     langName: { de: 'Deutsch', es: 'Español' },
   },
@@ -172,10 +173,11 @@ const T = {
     waitTitle: 'El sorteo será pronto',
     waitText: 'Cuando se haga el sorteo, aquí verás a quién le das el regalo. Solo vuelve a abrir este enlace más tarde.',
     tapToReveal: 'Toca el regalo para ver quién es tu amigo secreto',
-    youGiftTo: 'Tu amigo secreto es', theirWish: 'Su deseo / pista', noWish: 'Todavía no ha escrito un deseo – vuelve a mirar más tarde.',
+    youGiftTo: 'Tu amigo secreto es', theirWish: 'Su pista para el regalo', noWish: 'Todavía no ha escrito una pista – vuelve a mirar más tarde.',
     secret: '¡Shhh… no se lo digas a nadie! 🤫',
-    myWish: 'Mi deseo de regalo', myWishHint: '¿Qué te gustaría recibir? Tu amigo secreto verá este texto (opcional).',
-    wishPh: 'p. ej. libros, chocolate, medias talla 39 …',
+    myWish: 'Mi pista para el regalo', myWishHint: 'Ayuda a tu amigo secreto con una pista: pasatiempos, color favorito, talla, lo que no te gusta … (opcional)',
+    wishPh: 'p. ej. Me gusta cocinar, mi color es el azul, calzo 39, nada de dulces por favor …',
+    myName: 'Mi nombre', myNameHint: 'Así te ven los demás. Lo puedes cambiar cuando quieras.', nameSaved: 'Nombre cambiado ✓', nameInUse: 'Otra persona ya tiene ese nombre. Agrega p. ej. el apellido.',
     save: 'Guardar', saved: 'Guardado ✓',
     keepLink: 'Este es tu enlace personal. Guárdalo o agrégalo a la pantalla de inicio – no necesitas nada más.',
     copyLink: 'Copiar mi enlace', copied: 'Enlace copiado ✓',
@@ -199,7 +201,7 @@ const T = {
     group: 'Grupo', noGroup: 'sin grupo', lang: 'Idioma',
     addPerson: 'Agregar persona', add: 'Agregar',
     sendLink: 'Enviar enlace', whatsapp: 'WhatsApp',
-    hasWish: 'Deseo ✓', seen: 'ya miró ✓', notSeen: 'todavía no ha mirado',
+    hasWish: 'Pista ✓', seen: 'ya miró ✓', notSeen: 'todavía no ha mirado',
     remove: 'Quitar', confirmRemove: n => `¿Seguro que quieres quitar a ${n}?`,
     edit: 'Editar', done: 'Listo',
     exclusions: 'Exclusiones adicionales',
@@ -213,7 +215,7 @@ const T = {
     tooFew: 'Se necesitan al menos 3 participantes.',
     impossible: 'Con estas exclusiones no es posible sortear. Por favor quita una exclusión.',
     alreadyDrawn: 'El sorteo ya se realizó.',
-    msg: (n, ev, url) => `¡Hola ${n}! 🎄 Aquí está tu enlace personal para el Amigo Secreto «${ev}»:\n${url}\n\nSolo ábrelo – no necesitas registrarte. Ahí puedes escribir tu deseo y, después del sorteo, ver quién es tu amigo secreto. 🎁`,
+    msg: (n, ev, url) => `¡Hola ${n}! 🎄 Aquí está tu enlace personal para el Amigo Secreto «${ev}»:\n${url}\n\nSolo ábrelo – no necesitas registrarte. Ahí puedes cambiar tu nombre, dejar una pista para tu amigo secreto y, después del sorteo, ver a quién le das el regalo. 🎁`,
     familyMsg: (ev, url) => `🎄 Amigo Secreto «${ev}» – aquí te puedes inscribir:\n${url}`,
     langName: { de: 'Deutsch', es: 'Español' },
   }
@@ -341,6 +343,14 @@ function renderMe(){
     <p class="sub">${esc(ev.name)}</p>
     ${drawBlock}
     ${infoCards(ev, d.count)}
+    <h2>${t().myName}</h2>
+    <div class="card">
+      <p class="muted small" style="margin-top:0">${t().myNameHint}</p>
+      <div class="row" style="flex-wrap:nowrap">
+        <input type="text" id="myName" maxlength="60" value="${esc(d.name)}" autocomplete="given-name">
+        <button class="btn green" id="saveName">${t().save}</button>
+      </div>
+    </div>
     <h2>${t().myWish}</h2>
     <div class="card">
       <p class="muted small" style="margin-top:0">${t().myWishHint}</p>
@@ -360,6 +370,15 @@ function renderMe(){
     e.target.disabled = false;
   };
   document.getElementById('copyMe').onclick = () => copy(myUrl);
+  document.getElementById('saveName').onclick = async (e) => {
+    e.target.disabled = true;
+    try {
+      const n = await rpc('me_rename', { p_token:tok, p_name:document.getElementById('myName').value });
+      d.name = n; toast(t().nameSaved);
+      document.querySelector('.hello').textContent = t().hello(n);
+    } catch(err){ toast(err.code === 'name_taken' ? t().nameInUse : errText(err)); }
+    e.target.disabled = false;
+  };
 }
 
 /* ---------- Selbst anmelden ---------- */
