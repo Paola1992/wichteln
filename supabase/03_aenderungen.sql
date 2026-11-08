@@ -21,3 +21,10 @@ begin
   update public.participants set name = n where id = p.id;
   return n;
 end $$;
+
+-- 3) Ein Link für alle: Jeder tippt im Familien-Link auf seinen Namen.
+--    Ein Name kann nur einmal "beansprucht" werden (claimed_at); die Organisatorin kann ihn
+--    mit admin_release wieder freigeben (dabei wird ein neuer persönlicher Link erzeugt).
+--    Neue Funktionen: family_list(p_code), family_claim(p_code, p_id), admin_release(p_admin, p_id).
+--    me_get setzt claimed_at beim ersten Öffnen eines persönlichen Links.
+alter table public.participants add column if not exists claimed_at timestamptz;

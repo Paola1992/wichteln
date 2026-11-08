@@ -8,7 +8,8 @@ Einfache zweisprachige (Deutsch/Spanisch) Wichtel-Seite für die Familie.
 ## So funktioniert es
 - **Organisatorin** öffnet `…/#a=<admin-link>`: Teilnehmer, Gruppen, Ausschlüsse, Auslosung.
 - **Teilnehmer** öffnen ihren persönlichen Link `…/#p=<token>` – keine Anmeldung, kein Passwort.
-- **Selbst eintragen** über den Familien-Link `…/#j=<code>`.
+- **Ein Link für alle** `…/#j=<code>`: Jeder tippt auf seinen Namen; danach ist der Name gesperrt.
+  Die Organisatorin kann einen Namen mit 🔓 wieder freigeben. Wer fehlt, kann sich dort neu eintragen.
 - Personen in derselben **Gruppe** (Paare, „Kolumbien“) ziehen sich nicht gegenseitig.
   Zusätzliche Ausschlüsse gelten immer in beide Richtungen.
 - Die Auslosung passiert auf dem Server; niemand – auch die Organisatorin nicht – sieht die Zuteilung.

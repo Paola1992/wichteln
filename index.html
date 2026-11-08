@@ -139,8 +139,20 @@ const T = {
     adminTitle: 'Organisation',
     adminInfo: 'Du siehst hier niemals, wer wen gezogen hat – auch du kannst also ganz normal mitmachen.',
     rules: 'Spielregeln', evName: 'Name', evBudget: 'Budget', evDate: 'Datum Geschenkübergabe',
-    familyLink: 'Familien-Link zum Selbst-Anmelden',
-    familyLinkText: 'Wer möchte, kann sich mit diesem Link selbst eintragen.',
+    familyLink: '🔗 Ein Link für alle',
+    familyLinkText: 'Schick diesen einen Link in die Familiengruppe. Jeder tippt auf seinen Namen – fertig. Ein Name kann nur einmal angetippt werden.',
+    familyTitle: n => `🎄 ${n}`,
+    whoAreYou: 'Wer bist du? Tippe auf deinen Namen.',
+    confirmClaim: n => `Bist du wirklich ${n}?\n\nDanach ist der Name für alle anderen gesperrt.`,
+    allClaimed: 'Alle Namen sind schon vergeben.',
+    alreadyIn: 'Schon angemeldet',
+    claimedHelp: 'Dein Name ist gesperrt, du warst es aber nicht? Sag der Organisatorin Bescheid.',
+    notInList: 'Mein Name fehlt – neu eintragen',
+    alreadyClaimed: 'Dieser Name wurde gerade schon von jemandem angetippt. Wenn du das bist, sag der Organisatorin Bescheid.',
+    notMe: n => `Nicht ${n}? Anderen Namen wählen`,
+    claimedPill: 'angemeldet ✓', notClaimedPill: 'noch nicht angemeldet',
+    release: 'Namen freigeben',
+    confirmRelease: n => `Namen „${n}“ wieder freigeben? Der bisherige persönliche Link von ${n} funktioniert danach nicht mehr – ${n} tippt einfach im Familien-Link nochmal auf den eigenen Namen.`,
     share: 'Teilen', copy: 'Kopieren',
     participants: 'Teilnehmer',
     shareSignal: 'Teilen (Signal, SMS …)',
@@ -164,7 +176,7 @@ const T = {
     impossible: 'Mit diesen Ausschlüssen ist keine Auslosung möglich. Bitte entferne einen Ausschluss.',
     alreadyDrawn: 'Es wurde schon ausgelost.',
     msg: (n, ev, url) => `Hallo ${n}! 🎄 Hier ist dein persönlicher Link zum Wichteln „${ev}“:\n${url}\n\nEinfach öffnen – keine Anmeldung nötig. Dort kannst du deinen Namen anpassen, einen Geschenkhinweis für deinen Wichtel hinterlassen und nach der Auslosung sehen, wen du beschenkst. 🎁`,
-    familyMsg: (ev, url) => `🎄 Wichteln „${ev}“ – hier kannst du dich eintragen:\n${url}`,
+    familyMsg: (ev, url) => `🎄 Wichteln „${ev}“ / Amigo Secreto 🎁\nÖffne den Link und tippe auf deinen Namen – Abre el enlace y toca tu nombre:\n${url}`,
     langName: { de: 'Deutsch', es: 'Español' },
   },
   es: {
@@ -195,8 +207,20 @@ const T = {
     adminTitle: 'Organización',
     adminInfo: 'Aquí nunca verás quién le tocó a quién – así que tú también puedes participar normalmente.',
     rules: 'Reglas', evName: 'Nombre', evBudget: 'Presupuesto', evDate: 'Fecha de entrega',
-    familyLink: 'Enlace familiar para inscribirse',
-    familyLinkText: 'Quien quiera puede inscribirse solo con este enlace.',
+    familyLink: '🔗 Un enlace para todos',
+    familyLinkText: 'Envía este único enlace al grupo de la familia. Cada uno toca su nombre – listo. Cada nombre solo se puede tocar una vez.',
+    familyTitle: n => `🎄 ${n}`,
+    whoAreYou: '¿Quién eres? Toca tu nombre.',
+    confirmClaim: n => `¿De verdad eres ${n}?\n\nDespués el nombre queda bloqueado para los demás.`,
+    allClaimed: 'Todos los nombres ya están tomados.',
+    alreadyIn: 'Ya inscritos',
+    claimedHelp: '¿Tu nombre está bloqueado pero no fuiste tú? Avísale a la organizadora.',
+    notInList: 'Mi nombre no está – inscribirme',
+    alreadyClaimed: 'Alguien acaba de tocar este nombre. Si eres tú, avísale a la organizadora.',
+    notMe: n => `¿No eres ${n}? Elegir otro nombre`,
+    claimedPill: 'inscrito ✓', notClaimedPill: 'todavía no inscrito',
+    release: 'Liberar nombre',
+    confirmRelease: n => `¿Liberar el nombre «${n}»? El enlace personal anterior de ${n} ya no funcionará – ${n} solo vuelve a tocar su nombre en el enlace familiar.`,
     share: 'Compartir', copy: 'Copiar',
     participants: 'Participantes',
     shareSignal: 'Compartir (Signal, SMS …)',
@@ -220,7 +244,7 @@ const T = {
     impossible: 'Con estas exclusiones no es posible sortear. Por favor quita una exclusión.',
     alreadyDrawn: 'El sorteo ya se realizó.',
     msg: (n, ev, url) => `¡Hola ${n}! 🎄 Aquí está tu enlace personal para el Amigo Secreto «${ev}»:\n${url}\n\nSolo ábrelo – no necesitas registrarte. Ahí puedes cambiar tu nombre, dejar una pista para tu amigo secreto y, después del sorteo, ver a quién le das el regalo. 🎁`,
-    familyMsg: (ev, url) => `🎄 Amigo Secreto «${ev}» – aquí te puedes inscribir:\n${url}`,
+    familyMsg: (ev, url) => `🎄 Amigo Secreto «${ev}» / Wichteln 🎁\nAbre el enlace y toca tu nombre – Öffne den Link und tippe auf deinen Namen:\n${url}`,
     langName: { de: 'Deutsch', es: 'Español' },
   }
 };
@@ -249,7 +273,7 @@ async function rpc(fn, args){
   return txt ? JSON.parse(txt) : null;
 }
 function errText(e){
-  const map = { not_found:'notFound', name_taken:'nameTaken', name_required:'nameRequired', already_drawn:'alreadyDrawn', too_few:'tooFew', impossible:'impossible' };
+  const map = { not_found:'notFound', name_taken:'nameTaken', name_required:'nameRequired', already_drawn:'alreadyDrawn', already_claimed:'alreadyClaimed', too_few:'tooFew', impossible:'impossible' };
   return t()[map[e.code]] || t().error;
 }
 function toast(msg){
@@ -295,7 +319,11 @@ async function route(){
       if (!store.get('lang:' + p.get('p'))) { lang = view.data.lang || lang; store.set('lang:' + p.get('p'), '1'); store.set('lang', lang); }
       view.onLang = l => rpc('me_update', { p_token:p.get('p'), p_wish:null, p_lang:l }).catch(()=>{});
     }
-    else if (p.get('j')) { view.name = 'join'; view.data = await rpc('join_info', { p_code:p.get('j') }); }
+    else if (p.get('j')) {
+      if (store.get('me') && store.get('family') === p.get('j')) { location.hash = 'p=' + store.get('me'); return; }
+      store.set('family', p.get('j'));
+      view.name = 'join'; view.data = await rpc('family_list', { p_code:p.get('j') });
+    }
     else if (store.get('me')) { location.hash = 'p=' + store.get('me'); return; }
     else { view.name = 'home'; view.data = null; }
   } catch(e){
@@ -364,6 +392,7 @@ function renderMe(){
     <div class="card">
       <p class="small muted" style="margin-top:0">🔖 ${t().keepLink}</p>
       <button class="btn ghost block" id="copyMe">${t().copyLink}</button>
+      ${store.get('family') ? `<p class="center small" style="margin:14px 0 0"><a href="#" id="notMe" style="color:var(--muted)">${t().notMe(d.name)}</a></p>` : ''}
     </div>`;
   const g = document.getElementById('gift');
   if (g) g.onclick = () => { g.classList.add('shake'); setTimeout(() => { revealed = true; renderMe(); rpc('me_seen', { p_token:tok }).catch(()=>{}); }, 600); };
@@ -374,6 +403,8 @@ function renderMe(){
     e.target.disabled = false;
   };
   document.getElementById('copyMe').onclick = () => copy(myUrl);
+  const nm = document.getElementById('notMe');
+  if (nm) nm.onclick = (e) => { e.preventDefault(); store.set('me', ''); revealed = false; location.hash = 'j=' + store.get('family'); };
   document.getElementById('saveName').onclick = async (e) => {
     e.target.disabled = true;
     try {
@@ -387,13 +418,20 @@ function renderMe(){
 
 /* ---------- Selbst anmelden ---------- */
 function renderJoin(){
-  const ev = view.data, code = params().get('j');
-  if (ev.drawn){ app.innerHTML = `<div class="card notice">${t().joinClosed}</div>`; return; }
+  const d = view.data, ev = d.event, code = params().get('j');
+  const free = d.people.filter(p => !p.claimed), taken = d.people.filter(p => p.claimed);
   app.innerHTML = `
-    <p class="hello">${esc(t().joinTitle(ev.name))}</p>
-    <p class="sub">${t().joinText}</p>
-    ${infoCards(ev, null)}
+    <p class="hello">${esc(t().familyTitle(ev.name))}</p>
+    <p class="sub">${t().whoAreYou}</p>
     <div class="card">
+      ${free.length ? `<div class="grid2" style="margin:0">${free.map(p => `<button class="btn ghost" data-claim="${p.id}" style="min-height:64px;font-size:20px">${esc(p.name)}</button>`).join('')}</div>`
+                    : `<p class="muted" style="margin:0">${t().allClaimed}</p>`}
+      ${taken.length ? `<p class="small muted" style="margin:14px 0 0">🔒 ${t().alreadyIn}: ${taken.map(p => esc(p.name)).join(', ')}</p>
+        <p class="small muted" style="margin:4px 0 0">${t().claimedHelp}</p>` : ''}
+    </div>
+    ${infoCards(ev, d.people.length)}
+    ${ev.drawn ? '' : `
+    <details class="card"><summary>➕ ${t().notInList}</summary>
       <form id="jf">
         <label class="f" for="jn">${t().yourName}</label>
         <input type="text" id="jn" maxlength="60" autocomplete="given-name" required>
@@ -402,18 +440,21 @@ function renderJoin(){
         <div id="jerr"></div>
         <button class="btn block" type="submit">${t().join}</button>
       </form>
-    </div>`;
-  document.getElementById('jf').onsubmit = async (e) => {
+    </details>`}`;
+  const go = (tok, keepLang) => { store.set('me', tok); store.set('family', code); if (keepLang) store.set('lang:' + tok, '1'); location.hash = 'p=' + tok; };
+  app.querySelectorAll('[data-claim]').forEach(b => b.onclick = async () => {
+    const name = d.people.find(p => p.id === b.dataset.claim).name;
+    if (!confirm(t().confirmClaim(name))) return;
+    b.disabled = true;
+    try { go(await rpc('family_claim', { p_code:code, p_id:b.dataset.claim })); }
+    catch(err){ toast(errText(err)); view.data = await rpc('family_list', { p_code:code }); renderJoin(); }
+  });
+  const f = document.getElementById('jf');
+  if (f) f.onsubmit = async (e) => {
     e.preventDefault();
     const btn = e.target.querySelector('button'); btn.disabled = true;
-    try {
-      const tok = await rpc('join_event', { p_code:code, p_name:document.getElementById('jn').value, p_lang:lang, p_wish:document.getElementById('jw').value });
-      store.set('me', tok); store.set('lang:' + tok, '1');
-      location.hash = 'p=' + tok;
-    } catch(err){
-      document.getElementById('jerr').innerHTML = `<div class="notice err">${esc(errText(err))}</div>`;
-      btn.disabled = false;
-    }
+    try { go(await rpc('join_event', { p_code:code, p_name:document.getElementById('jn').value, p_lang:lang, p_wish:document.getElementById('jw').value }), true); }
+    catch(err){ document.getElementById('jerr').innerHTML = `<div class="notice err">${esc(errText(err))}</div>`; btn.disabled = false; }
   };
 }
 
@@ -444,6 +485,17 @@ function renderAdmin(){
     <div class="notice">🔒 ${t().adminInfo}</div>
     <div class="status ${ev.drawn ? 'done' : ''}">${ev.drawn ? t().drawn + ` · ${seenCount}/${ps.length} 👀` : t().notDrawn} · ${ps.length} ${t().people}</div>
 
+    <h2>${t().familyLink}</h2>
+    <div class="card">
+      <p class="muted small" style="margin-top:0">${t().familyLinkText}</p>
+      <p class="small" style="word-break:break-all;background:#f4f4f9;border-radius:10px;padding:8px 10px">${esc(joinUrl)}</p>
+      <div class="row">
+        <button class="btn sm green" id="shareJoin">📤 ${t().share}</button>
+        <button class="btn sm ghost" id="copyJoin">📋 ${t().copy}</button>
+        <a class="btn sm ghost" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(t().familyMsg(ev.name, joinUrl))}">💬 ${t().whatsapp}</a>
+      </div>
+    </div>
+
     <h2>${t().rules}</h2>
     <div class="card">
       <label class="f" for="en">${t().evName}</label><input type="text" id="en" value="${esc(ev.name)}">
@@ -465,6 +517,7 @@ function renderAdmin(){
             <div class="name">${esc(p.name)} <span class="small muted">${p.lang.toUpperCase()}</span></div>
             <div class="meta">
               ${p.team ? `<span class="pill team">${esc(p.team)}</span>` : ''}
+              ${p.claimed ? `<span class="pill ok">${t().claimedPill}</span>` : `<span class="pill">${t().notClaimedPill}</span>`}
               ${p.has_wish ? `<span class="pill ok">${t().hasWish}</span>` : ''}
               ${ev.drawn ? (p.seen ? `<span class="pill ok">${t().seen}</span>` : `<span class="pill">${t().notSeen}</span>`) : ''}
             </div>
@@ -479,6 +532,7 @@ function renderAdmin(){
             <a class="iconbtn" style="display:inline-flex;align-items:center;text-decoration:none" title="${t().whatsapp}" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msg)}">💬</a>
             <button class="iconbtn" title="${t().shareSignal}" data-share="${esc(msg)}">📤</button>
             <button class="iconbtn" title="${t().copy}" data-copy="${esc(msg)}">📋</button>
+            ${p.claimed ? `<button class="iconbtn" title="${t().release}" data-release="${p.id}">🔓</button>` : ''}
             ${locked ? '' : `<button class="iconbtn" title="${t().edit}" data-edit="${p.id}">✏️</button>`}
           </div>
         </div>`;}).join('')}
@@ -509,14 +563,6 @@ function renderAdmin(){
       <button class="btn ghost block" id="addEx">↔ ${t().exclude}</button>
     </div>`}
 
-    <h2>${t().familyLink}</h2>
-    <div class="card">
-      <p class="muted small" style="margin-top:0">${t().familyLinkText}</p>
-      <div class="row">
-        <button class="btn sm green" id="shareJoin">📤 ${t().share}</button>
-        <a class="btn sm ghost" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(t().familyMsg(ev.name, joinUrl))}">💬 ${t().whatsapp}</a>
-      </div>
-    </div>
 
     <div style="margin-top:24px">
       ${ev.drawn
@@ -527,7 +573,9 @@ function renderAdmin(){
   const $ = id => document.getElementById(id);
   $('saveEv').onclick = async () => { if (await adminDo('admin_update_event', { p_name:$('en').value, p_budget:$('eb').value, p_date:$('ed').value || null })) toast(t().saved); };
   $('shareJoin').onclick = () => shareText(t().familyMsg(ev.name, joinUrl));
+  $('copyJoin').onclick = () => copy(t().familyMsg(ev.name, joinUrl));
   app.querySelectorAll('[data-copy]').forEach(b => b.onclick = () => copy(b.dataset.copy));
+  app.querySelectorAll('[data-release]').forEach(b => b.onclick = () => adminDo('admin_release', { p_id:b.dataset.release }, t().confirmRelease(byId[b.dataset.release].name)));
   app.querySelectorAll('[data-share]').forEach(b => b.onclick = () => shareText(b.dataset.share));
   app.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => { editing = editing === b.dataset.edit ? null : b.dataset.edit; renderAdmin(); });
   app.querySelectorAll('[data-done]').forEach(b => b.onclick = () => { editing = null; renderAdmin(); });
