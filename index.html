@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Familien-Wichteln · Amigo Secreto</title>
+<meta name="description" content="Wichteln für die Familie – Amigo secreto para la familia">
+<meta name="theme-color" content="#1e1d45">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#1e1d45; --bg2:#2a2960; --card:#ffffff; --ink:#1b1b2f; --muted:#5d5d78;
+  --red:#c9313f; --red-d:#a92633; --green:#3f8b73; --gold:#f2c14e; --line:#e4e4ee;
+  --radius:18px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:radial-gradient(1200px 600px at 50% -200px,#3b3a86 0%,var(--bg) 60%) fixed,var(--bg);
+  color:#fff; font-family:Nunito,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  font-size:18px; line-height:1.45; min-height:100vh; -webkit-font-smoothing:antialiased;
+}
+.snow{position:fixed;inset:0;pointer-events:none;background-image:
+  radial-gradient(2px 2px at 20px 30px,#fff8,transparent),radial-gradient(2px 2px at 140px 80px,#fff6,transparent),
+  radial-gradient(1.5px 1.5px at 90px 160px,#fff7,transparent),radial-gradient(2px 2px at 220px 120px,#fff5,transparent);
+  background-size:260px 200px;opacity:.6}
+.wrap{max-width:640px;margin:0 auto;padding:16px 16px 64px;position:relative}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0 10px}
+.brand{font-family:"Mountains of Christmas",cursive;font-size:30px;line-height:1.1;margin:0}
+.langs{display:flex;gap:6px;flex-shrink:0}
+.langs button{background:#ffffff1f;border:1px solid #ffffff33;color:#fff;border-radius:999px;padding:6px 12px;font:inherit;font-size:15px;cursor:pointer}
+.langs button.on{background:#fff;color:var(--ink);font-weight:800}
+h2{font-size:21px;margin:26px 4px 10px;display:flex;align-items:center;gap:10px}
+h2::after{content:"";flex:1;height:1px;background:#ffffff2a}
+.card{background:var(--card);color:var(--ink);border-radius:var(--radius);padding:18px;margin:12px 0;box-shadow:0 6px 20px #0003}
+.card .label{color:var(--red);font-weight:600;font-size:16px;margin:0 0 2px}
+.card .value{font-weight:800;font-size:22px;margin:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid2 .card{margin:0}
+.hello{font-size:28px;font-weight:800;margin:8px 4px 0}
+.sub{color:#d9d9f0;margin:4px 4px 0}
+.muted{color:var(--muted)}
+.small{font-size:15px}
+label.f{display:block;font-weight:600;margin:12px 0 6px}
+input[type=text],input[type=date],textarea,select{
+  width:100%;font:inherit;font-size:18px;padding:12px 14px;border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--green)}
+textarea{min-height:110px;resize:vertical}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;
+  font:inherit;font-weight:800;font-size:18px;padding:14px 22px;cursor:pointer;background:var(--red);color:#fff;text-decoration:none;min-height:52px}
+.btn:hover{background:var(--red-d)}
+.btn.block{width:100%;margin-top:14px}
+.btn.green{background:var(--green)} .btn.green:hover{background:#357562}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line)}
+.btn.ghost:hover{background:#f4f4f9}
+.btn.sm{font-size:15px;padding:8px 14px;min-height:40px}
+.btn[disabled]{opacity:.5;cursor:default}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.reveal{text-align:center;padding:28px 18px}
+.gift{font-size:90px;line-height:1;cursor:pointer;display:inline-block;transition:transform .2s;user-select:none;border:0;background:none;padding:0}
+.gift:hover{transform:scale(1.06) rotate(-4deg)}
+.gift.shake{animation:shake .6s}
+@keyframes shake{0%,100%{transform:rotate(0)}20%{transform:rotate(-12deg)}40%{transform:rotate(10deg)}60%{transform:rotate(-8deg)}80%{transform:rotate(6deg)}}
+.receiver{font-family:"Mountains of Christmas",cursive;font-size:52px;color:var(--red);margin:6px 0 4px;line-height:1.1;word-break:break-word}
+.wishbox{background:#fbf6e9;border-radius:12px;padding:12px 14px;margin-top:12px;text-align:left;white-space:pre-wrap;word-break:break-word}
+.pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:14px;font-weight:700;background:#eef0ff;color:#3b3a86}
+.pill.team{background:#fde8ea;color:var(--red-d)}
+.pill.ok{background:#e3f3ed;color:#2b6d58}
+.p{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;border-top:1px solid var(--line);padding:12px 0}
+.p:first-of-type{border-top:0}
+.p .name{font-weight:800;font-size:19px}
+.p .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.p .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.iconbtn{border:2px solid var(--line);background:#fff;border-radius:12px;min-width:42px;height:42px;font-size:19px;cursor:pointer;color:var(--ink);padding:0 10px}
+.iconbtn:hover{background:#f4f4f9}
+.notice{background:#fff4d6;color:#5b4300;border-radius:12px;padding:12px 14px;margin:10px 0;font-size:16px}
+.notice.err{background:#fde8ea;color:#8a1c27}
+.status{background:#000;color:#fff;text-align:center;padding:8px;border-radius:12px;font-weight:600;margin:8px 0}
+.status.done{background:var(--green)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(30px);background:#111;color:#fff;padding:12px 18px;border-radius:12px;opacity:0;transition:.25s;z-index:20;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+details summary{cursor:pointer;font-weight:700}
+.center{text-align:center}
+.big{font-size:22px}
+.edit{display:grid;gap:8px;margin-top:10px;background:#f7f7fb;border-radius:12px;padding:12px}
+@media (max-width:420px){.grid2{grid-template-columns:1fr}.receiver{font-size:42px}.brand{font-size:26px}}
+</style>
+</head>
+<body>
+<div class="snow" aria-hidden="true"></div>
+<div class="wrap">
+  <header>
+    <h1 class="brand" id="brand">🎄 Wichteln</h1>
+    <div class="langs" role="group" aria-label="Sprache / Idioma">
+      <button data-l="de" type="button">DE</button>
+      <button data-l="es" type="button">ES</button>
+    </div>
+  </header>
+  <main id="app"><p class="sub">…</p></main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const SB_URL = 'https://neiukaldogxbqohwfsmc.supabase.co';
+const SB_KEY = 'sb_publishable_-sFBxKXoAbARk6j4t7zBDw_LXqitKwi';
+
+const T = {
+  de: {
+    brand: '🎄 Wichteln',
+    hello: n => `Hallo ${n}! 👋`,
+    budget: 'Budget', date: 'Geschenkübergabe', people: 'Teilnehmer',
+    notDrawn: 'Noch nicht ausgelost', drawn: 'Ausgelost 🎉',
+    waitTitle: 'Die Auslosung kommt bald',
+    waitText: 'Sobald ausgelost wurde, siehst du hier, wen du beschenkst. Öffne einfach später wieder diesen Link.',
+    tapToReveal: 'Tippe auf das Geschenk, um zu sehen, wen du beschenkst',
+    youGiftTo: 'Du beschenkst', theirWish: 'Wunsch / Hinweis', noWish: 'Noch kein Wunsch eingetragen – schau später nochmal vorbei.',
+    secret: 'Pssst… nicht verraten! 🤫',
+    myWish: 'Mein Geschenkwunsch', myWishHint: 'Was wünschst du dir? Dein Wichtel sieht diesen Text (optional).',
+    wishPh: 'z. B. Bücher, Schokolade, Socken in Größe 39 …',
+    save: 'Speichern', saved: 'Gespeichert ✓',
+    keepLink: 'Das ist dein persönlicher Link. Speichere ihn oder füge ihn zum Startbildschirm hinzu – mehr brauchst du nicht.',
+    copyLink: 'Meinen Link kopieren', copied: 'Link kopiert ✓',
+    notFound: 'Dieser Link ist ungültig oder wurde entfernt. Bitte frag die Organisatorin nach einem neuen Link.',
+    error: 'Etwas ist schiefgelaufen. Bitte versuch es nochmal.',
+    // join
+    joinTitle: n => `Mitmachen bei „${n}“`,
+    joinText: 'Gib einfach deinen Namen ein. Kein Passwort, keine E-Mail.',
+    yourName: 'Dein Name', personName: 'Name', join: 'Mitmachen 🎁',
+    nameTaken: 'Dieser Name ist schon angemeldet. Wenn du das bist, frag die Organisatorin nach deinem persönlichen Link – oder nimm einen anderen Namen (z. B. mit Nachnamen).',
+    nameRequired: 'Bitte gib deinen Namen ein.',
+    joinClosed: 'Die Auslosung hat schon stattgefunden – Anmelden ist nicht mehr möglich.',
+    // home
+    homeText: 'Diese Seite funktioniert nur mit einem persönlichen Link. Bitte frag die Organisatorin danach.',
+    // admin
+    adminTitle: 'Organisation',
+    adminInfo: 'Du siehst hier niemals, wer wen gezogen hat – auch du kannst also ganz normal mitmachen.',
+    rules: 'Spielregeln', evName: 'Name', evBudget: 'Budget', evDate: 'Datum Geschenkübergabe',
+    familyLink: 'Familien-Link zum Selbst-Anmelden',
+    familyLinkText: 'Wer möchte, kann sich mit diesem Link selbst eintragen.',
+    share: 'Teilen', copy: 'Kopieren',
+    participants: 'Teilnehmer',
+    groupsInfo: 'Personen in derselben Gruppe ziehen sich nicht gegenseitig (z. B. Paare oder „Kolumbien“).',
+    group: 'Gruppe', noGroup: 'keine Gruppe', lang: 'Sprache',
+    addPerson: 'Person hinzufügen', add: 'Hinzufügen',
+    sendLink: 'Link senden', whatsapp: 'WhatsApp',
+    hasWish: 'Wunsch ✓', seen: 'hat nachgeschaut ✓', notSeen: 'noch nicht nachgeschaut',
+    remove: 'Entfernen', confirmRemove: n => `${n} wirklich entfernen?`,
+    edit: 'Bearbeiten', done: 'Fertig',
+    exclusions: 'Zusätzliche Ausschlüsse',
+    exclusionsInfo: 'Für Paare, die nicht schon über die Gruppe ausgeschlossen sind. Gilt immer in beide Richtungen.',
+    noExclusions: 'Keine zusätzlichen Ausschlüsse.',
+    exclude: 'Ausschließen',
+    draw: 'Jetzt auslosen 🎲', confirmDraw: 'Jetzt auslosen? Danach kann niemand mehr hinzugefügt werden.',
+    drawnInfo: 'Ausgelost! Schick jetzt allen ihren Link – wer schon nachgeschaut hat, siehst du in der Liste.',
+    reset: 'Auslosung zurücksetzen',
+    confirmReset: 'Wirklich zurücksetzen? Alle Zuteilungen werden gelöscht und es muss neu ausgelost werden.',
+    tooFew: 'Es braucht mindestens 3 Teilnehmer.',
+    impossible: 'Mit diesen Ausschlüssen ist keine Auslosung möglich. Bitte entferne einen Ausschluss.',
+    alreadyDrawn: 'Es wurde schon ausgelost.',
+    msg: (n, ev, url) => `Hallo ${n}! 🎄 Hier ist dein persönlicher Link zum Wichteln „${ev}“:\n${url}\n\nEinfach öffnen – keine Anmeldung nötig. Dort kannst du deinen Wunsch eintragen und nach der Auslosung sehen, wen du beschenkst. 🎁`,
+    familyMsg: (ev, url) => `🎄 Wichteln „${ev}“ – hier kannst du dich eintragen:\n${url}`,
+    langName: { de: 'Deutsch', es: 'Español' },
+  },
+  es: {
+    brand: '🎄 Amigo Secreto',
+    hello: n => `¡Hola ${n}! 👋`,
+    budget: 'Presupuesto', date: 'Entrega de regalos', people: 'Participantes',
+    notDrawn: 'Todavía no se ha sorteado', drawn: 'Sorteo realizado 🎉',
+    waitTitle: 'El sorteo será pronto',
+    waitText: 'Cuando se haga el sorteo, aquí verás a quién le das el regalo. Solo vuelve a abrir este enlace más tarde.',
+    tapToReveal: 'Toca el regalo para ver quién es tu amigo secreto',
+    youGiftTo: 'Tu amigo secreto es', theirWish: 'Su deseo / pista', noWish: 'Todavía no ha escrito un deseo – vuelve a mirar más tarde.',
+    secret: '¡Shhh… no se lo digas a nadie! 🤫',
+    myWish: 'Mi deseo de regalo', myWishHint: '¿Qué te gustaría recibir? Tu amigo secreto verá este texto (opcional).',
+    wishPh: 'p. ej. libros, chocolate, medias talla 39 …',
+    save: 'Guardar', saved: 'Guardado ✓',
+    keepLink: 'Este es tu enlace personal. Guárdalo o agrégalo a la pantalla de inicio – no necesitas nada más.',
+    copyLink: 'Copiar mi enlace', copied: 'Enlace copiado ✓',
+    notFound: 'Este enlace no es válido o fue eliminado. Pídele un enlace nuevo a la organizadora.',
+    error: 'Algo salió mal. Por favor intenta de nuevo.',
+    joinTitle: n => `Participar en «${n}»`,
+    joinText: 'Solo escribe tu nombre. Sin contraseña, sin correo.',
+    yourName: 'Tu nombre', personName: 'Nombre', join: 'Participar 🎁',
+    nameTaken: 'Ese nombre ya está inscrito. Si eres tú, pídele tu enlace personal a la organizadora – o usa otro nombre (p. ej. con apellido).',
+    nameRequired: 'Por favor escribe tu nombre.',
+    joinClosed: 'El sorteo ya se realizó – ya no es posible inscribirse.',
+    homeText: 'Esta página solo funciona con un enlace personal. Pídeselo a la organizadora.',
+    adminTitle: 'Organización',
+    adminInfo: 'Aquí nunca verás quién le tocó a quién – así que tú también puedes participar normalmente.',
+    rules: 'Reglas', evName: 'Nombre', evBudget: 'Presupuesto', evDate: 'Fecha de entrega',
+    familyLink: 'Enlace familiar para inscribirse',
+    familyLinkText: 'Quien quiera puede inscribirse solo con este enlace.',
+    share: 'Compartir', copy: 'Copiar',
+    participants: 'Participantes',
+    groupsInfo: 'Las personas del mismo grupo no se pueden sacar entre sí (p. ej. parejas o «Kolumbien»).',
+    group: 'Grupo', noGroup: 'sin grupo', lang: 'Idioma',
+    addPerson: 'Agregar persona', add: 'Agregar',
+    sendLink: 'Enviar enlace', whatsapp: 'WhatsApp',
+    hasWish: 'Deseo ✓', seen: 'ya miró ✓', notSeen: 'todavía no ha mirado',
+    remove: 'Quitar', confirmRemove: n => `¿Seguro que quieres quitar a ${n}?`,
+    edit: 'Editar', done: 'Listo',
+    exclusions: 'Exclusiones adicionales',
+    exclusionsInfo: 'Para parejas que no estén ya excluidas por el grupo. Siempre en ambas direcciones.',
+    noExclusions: 'No hay exclusiones adicionales.',
+    exclude: 'Excluir',
+    draw: 'Sortear ahora 🎲', confirmDraw: '¿Sortear ahora? Después ya no se puede agregar a nadie.',
+    drawnInfo: '¡Sorteo hecho! Envíale a cada uno su enlace – en la lista ves quién ya miró.',
+    reset: 'Reiniciar el sorteo',
+    confirmReset: '¿Seguro? Se borran todas las asignaciones y hay que sortear de nuevo.',
+    tooFew: 'Se necesitan al menos 3 participantes.',
+    impossible: 'Con estas exclusiones no es posible sortear. Por favor quita una exclusión.',
+    alreadyDrawn: 'El sorteo ya se realizó.',
+    msg: (n, ev, url) => `¡Hola ${n}! 🎄 Aquí está tu enlace personal para el Amigo Secreto «${ev}»:\n${url}\n\nSolo ábrelo – no necesitas registrarte. Ahí puedes escribir tu deseo y, después del sorteo, ver quién es tu amigo secreto. 🎁`,
+    familyMsg: (ev, url) => `🎄 Amigo Secreto «${ev}» – aquí te puedes inscribir:\n${url}`,
+    langName: { de: 'Deutsch', es: 'Español' },
+  }
+};
+
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch { return null; } },
+  set(k,v){ try { localStorage.setItem(k,v); } catch {} },
+};
+let lang = store.get('lang') || ((navigator.language||'').toLowerCase().startsWith('es') ? 'es' : 'de');
+const t = () => T[lang];
+const app = document.getElementById('app');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const base = () => location.origin + location.pathname;
+
+async function rpc(fn, args){
+  const r = await fetch(`${SB_URL}/rest/v1/rpc/${fn}`, {
+    method:'POST',
+    headers:{ apikey:SB_KEY, 'Content-Type':'application/json' },
+    body: JSON.stringify(args)
+  });
+  const txt = await r.text();
+  if (!r.ok){
+    let m = 'error'; try { m = JSON.parse(txt).message || m; } catch {}
+    const e = new Error(m); e.code = m; throw e;
+  }
+  return txt ? JSON.parse(txt) : null;
+}
+function errText(e){
+  const map = { not_found:'notFound', name_taken:'nameTaken', name_required:'nameRequired', already_drawn:'alreadyDrawn', too_few:'tooFew', impossible:'impossible' };
+  return t()[map[e.code]] || t().error;
+}
+function toast(msg){
+  const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('show'), 2400);
+}
+async function copy(text){
+  try { await navigator.clipboard.writeText(text); }
+  catch { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+  toast(t().copied);
+}
+async function shareText(text, url){
+  if (navigator.share){ try { await navigator.share({ text }); return; } catch(e){ if (e.name === 'AbortError') return; } }
+  copy(text);
+}
+function fmtDate(d){
+  if (!d) return '–';
+  const [y,m,day] = d.split('-').map(Number);
+  return new Date(y, m-1, day).toLocaleDateString(lang === 'es' ? 'es-CO' : 'de-DE', { day:'numeric', month:'long', year:'numeric' });
+}
+function setLang(l, persist){
+  lang = l; store.set('lang', l);
+  document.documentElement.lang = l;
+  document.querySelectorAll('.langs button').forEach(b => b.classList.toggle('on', b.dataset.l === l));
+  document.getElementById('brand').textContent = t().brand;
+  if (persist) persist(l);
+  render();
+}
+document.querySelectorAll('.langs button').forEach(b => b.onclick = () => setLang(b.dataset.l, view.onLang));
+
+/* ---------- Routing ---------- */
+const view = { name:null, data:null, onLang:null };
+function params(){ return new URLSearchParams(location.hash.slice(1)); }
+
+async function route(){
+  const p = params();
+  view.onLang = null;
+  try {
+    if (p.get('a')) { view.name = 'admin'; view.data = await rpc('admin_get', { p_admin:p.get('a') }); }
+    else if (p.get('p')) {
+      view.name = 'me'; view.data = await rpc('me_get', { p_token:p.get('p') });
+      store.set('me', p.get('p'));
+      if (!store.get('lang:' + p.get('p'))) { lang = view.data.lang || lang; store.set('lang:' + p.get('p'), '1'); store.set('lang', lang); }
+      view.onLang = l => rpc('me_update', { p_token:p.get('p'), p_wish:null, p_lang:l }).catch(()=>{});
+    }
+    else if (p.get('j')) { view.name = 'join'; view.data = await rpc('join_info', { p_code:p.get('j') }); }
+    else if (store.get('me')) { location.hash = 'p=' + store.get('me'); return; }
+    else { view.name = 'home'; view.data = null; }
+  } catch(e){
+    if (p.get('p') && store.get('me') === p.get('p')) store.set('me', '');
+    view.name = 'error'; view.data = errText(e);
+  }
+  setLang(lang);
+}
+window.addEventListener('hashchange', route);
+
+function render(){
+  ({ admin:renderAdmin, me:renderMe, join:renderJoin, home:renderHome, error:renderError })[view.name || 'home']();
+}
+
+function renderHome(){
+  app.innerHTML = `<div class="card center"><p class="big">🎁</p><p>${esc(t().homeText)}</p></div>`;
+}
+function renderError(){
+  app.innerHTML = `<div class="card notice err">${esc(view.data)}</div>`;
+}
+
+function infoCards(ev, count){
+  return `<div class="grid2">
+    <div class="card"><p class="label">${t().budget}</p><p class="value">${esc(ev.budget || '–')}</p></div>
+    <div class="card"><p class="label">${t().date}</p><p class="value">${esc(fmtDate(ev.gift_date))}</p></div>
+  </div>
+  ${count != null ? `<div class="status ${ev.drawn ? 'done' : ''}">${ev.drawn ? t().drawn : t().notDrawn} · ${count} ${t().people}</div>` : ''}`;
+}
+
+/* ---------- Persönliche Seite ---------- */
+let revealed = false;
+function renderMe(){
+  const d = view.data, ev = d.event, tok = params().get('p');
+  const myUrl = base() + '#p=' + tok;
+  let drawBlock;
+  if (!ev.drawn || !d.receiver){
+    drawBlock = `<div class="card center"><p class="big">⏳ <b>${t().waitTitle}</b></p><p class="muted">${t().waitText}</p></div>`;
+  } else if (!revealed){
+    drawBlock = `<div class="card reveal"><button class="gift" id="gift" aria-label="${esc(t().tapToReveal)}">🎁</button>
+      <p><b>${t().tapToReveal}</b></p></div>`;
+  } else {
+    drawBlock = `<div class="card reveal"><p class="muted" style="margin:0">${t().youGiftTo}</p>
+      <p class="receiver">${esc(d.receiver.name)}</p>
+      <div class="wishbox"><b>${t().theirWish}:</b><br>${d.receiver.wish ? esc(d.receiver.wish) : `<span class="muted">${t().noWish}</span>`}</div>
+      <p class="small muted" style="margin-bottom:0">${t().secret}</p></div>`;
+  }
+  app.innerHTML = `
+    <p class="hello">${esc(t().hello(d.name))}</p>
+    <p class="sub">${esc(ev.name)}</p>
+    ${drawBlock}
+    ${infoCards(ev, d.count)}
+    <h2>${t().myWish}</h2>
+    <div class="card">
+      <p class="muted small" style="margin-top:0">${t().myWishHint}</p>
+      <textarea id="wish" maxlength="1000" placeholder="${esc(t().wishPh)}">${esc(d.wish)}</textarea>
+      <button class="btn green block" id="saveWish">${t().save}</button>
+    </div>
+    <div class="card">
+      <p class="small muted" style="margin-top:0">🔖 ${t().keepLink}</p>
+      <button class="btn ghost block" id="copyMe">${t().copyLink}</button>
+    </div>`;
+  const g = document.getElementById('gift');
+  if (g) g.onclick = () => { g.classList.add('shake'); setTimeout(() => { revealed = true; renderMe(); rpc('me_seen', { p_token:tok }).catch(()=>{}); }, 600); };
+  document.getElementById('saveWish').onclick = async (e) => {
+    e.target.disabled = true;
+    try { const w = document.getElementById('wish').value; await rpc('me_update', { p_token:tok, p_wish:w, p_lang:null }); d.wish = w; toast(t().saved); }
+    catch(err){ toast(errText(err)); }
+    e.target.disabled = false;
+  };
+  document.getElementById('copyMe').onclick = () => copy(myUrl);
+}
+
+/* ---------- Selbst anmelden ---------- */
+function renderJoin(){
+  const ev = view.data, code = params().get('j');
+  if (ev.drawn){ app.innerHTML = `<div class="card notice">${t().joinClosed}</div>`; return; }
+  app.innerHTML = `
+    <p class="hello">${esc(t().joinTitle(ev.name))}</p>
+    <p class="sub">${t().joinText}</p>
+    ${infoCards(ev, null)}
+    <div class="card">
+      <form id="jf">
+        <label class="f" for="jn">${t().yourName}</label>
+        <input type="text" id="jn" maxlength="60" autocomplete="given-name" required>
+        <label class="f" for="jw">${t().myWish}</label>
+        <textarea id="jw" maxlength="1000" placeholder="${esc(t().wishPh)}"></textarea>
+        <div id="jerr"></div>
+        <button class="btn block" type="submit">${t().join}</button>
+      </form>
+    </div>`;
+  document.getElementById('jf').onsubmit = async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button'); btn.disabled = true;
+    try {
+      const tok = await rpc('join_event', { p_code:code, p_name:document.getElementById('jn').value, p_lang:lang, p_wish:document.getElementById('jw').value });
+      store.set('me', tok); store.set('lang:' + tok, '1');
+      location.hash = 'p=' + tok;
+    } catch(err){
+      document.getElementById('jerr').innerHTML = `<div class="notice err">${esc(errText(err))}</div>`;
+      btn.disabled = false;
+    }
+  };
+}
+
+/* ---------- Organisatorin ---------- */
+let editing = null;
+async function reloadAdmin(){
+  view.data = await rpc('admin_get', { p_admin:params().get('a') });
+  renderAdmin();
+}
+async function adminDo(fn, args, confirmMsg){
+  if (confirmMsg && !confirm(confirmMsg)) return;
+  try { await rpc(fn, Object.assign({ p_admin:params().get('a') }, args)); await reloadAdmin(); return true; }
+  catch(err){ toast(errText(err)); return false; }
+}
+function renderAdmin(){
+  const d = view.data, ev = d.event, ps = d.participants;
+  const byId = Object.fromEntries(ps.map(p => [p.id, p]));
+  const teams = [...new Set(ps.map(p => p.team).filter(Boolean))].sort();
+  const joinUrl = base() + '#j=' + ev.join_code;
+  const seenCount = ps.filter(p => p.seen).length;
+  const pairs = []; const seenPair = new Set();
+  d.exclusions.forEach(x => { const k = [x.giver, x.receiver].sort().join('|'); if (!seenPair.has(k) && byId[x.giver] && byId[x.receiver]) { seenPair.add(k); pairs.push([x.giver, x.receiver]); } });
+  const locked = ev.drawn;
+  const teamOptions = sel => `<option value="">— ${t().noGroup} —</option>` + teams.map(tm => `<option ${tm === sel ? 'selected' : ''}>${esc(tm)}</option>`).join('');
+
+  app.innerHTML = `
+    <p class="hello">${t().adminTitle}: ${esc(ev.name)}</p>
+    <div class="notice">🔒 ${t().adminInfo}</div>
+    <div class="status ${ev.drawn ? 'done' : ''}">${ev.drawn ? t().drawn + ` · ${seenCount}/${ps.length} 👀` : t().notDrawn} · ${ps.length} ${t().people}</div>
+
+    <h2>${t().rules}</h2>
+    <div class="card">
+      <label class="f" for="en">${t().evName}</label><input type="text" id="en" value="${esc(ev.name)}">
+      <div class="grid2" style="margin-top:0">
+        <div><label class="f" for="eb">${t().evBudget}</label><input type="text" id="eb" value="${esc(ev.budget || '')}"></div>
+        <div><label class="f" for="ed">${t().evDate}</label><input type="date" id="ed" value="${esc(ev.gift_date || '')}"></div>
+      </div>
+      <button class="btn green block" id="saveEv">${t().save}</button>
+    </div>
+
+    <h2>${t().participants}</h2>
+    <p class="sub small">👥 ${t().groupsInfo}</p>
+    <div class="card">
+      ${ps.map(p => {
+        const url = base() + '#p=' + p.token;
+        const msg = T[p.lang] ? T[p.lang].msg(p.name, ev.name, url) : t().msg(p.name, ev.name, url);
+        return `<div class="p">
+          <div style="min-width:0">
+            <div class="name">${esc(p.name)} <span class="small muted">${p.lang.toUpperCase()}</span></div>
+            <div class="meta">
+              ${p.team ? `<span class="pill team">${esc(p.team)}</span>` : ''}
+              ${p.has_wish ? `<span class="pill ok">${t().hasWish}</span>` : ''}
+              ${ev.drawn ? (p.seen ? `<span class="pill ok">${t().seen}</span>` : `<span class="pill">${t().notSeen}</span>`) : ''}
+            </div>
+            ${editing === p.id ? `<div class="edit">
+              <label class="small">${t().group}<select data-team="${p.id}">${teamOptions(p.team)}<option value="__new">+ …</option></select></label>
+              <label class="small">${t().lang}<select data-lang="${p.id}">${['de','es'].map(l => `<option value="${l}" ${l === p.lang ? 'selected' : ''}>${t().langName[l]}</option>`).join('')}</select></label>
+              <div class="row"><button class="btn sm green" data-done="${p.id}">${t().done}</button>
+              <button class="btn sm ghost" data-rm="${p.id}">🗑 ${t().remove}</button></div>
+            </div>` : ''}
+          </div>
+          <div class="acts">
+            <a class="iconbtn" style="display:inline-flex;align-items:center;text-decoration:none" title="${t().whatsapp}" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(msg)}">💬</a>
+            <button class="iconbtn" title="${t().copy}" data-copy="${esc(msg)}">📋</button>
+            ${locked ? '' : `<button class="iconbtn" title="${t().edit}" data-edit="${p.id}">✏️</button>`}
+          </div>
+        </div>`;}).join('')}
+    </div>
+    ${locked ? '' : `
+    <div class="card">
+      <b>➕ ${t().addPerson}</b>
+      <form id="af">
+        <label class="f" for="an">${t().personName}</label>
+        <input type="text" id="an" maxlength="60" required>
+        <div class="grid2" style="margin-top:0">
+          <div><label class="f" for="at">${t().group}</label><select id="at">${teamOptions('')}<option value="__new">+ …</option></select></div>
+          <div><label class="f" for="al">${t().lang}</label><select id="al">${['de','es'].map(l => `<option value="${l}" ${l === lang ? 'selected' : ''}>${t().langName[l]}</option>`).join('')}</select></div>
+        </div>
+        <button class="btn green block" type="submit">${t().add}</button>
+      </form>
+    </div>
+
+    <h2>${t().exclusions}</h2>
+    <p class="sub small">${t().exclusionsInfo}</p>
+    <div class="card">
+      ${pairs.length ? pairs.map(([a,b]) => `<div class="p"><div class="name">${esc(byId[a].name)} ↔ ${esc(byId[b].name)}</div>
+        <button class="iconbtn" data-unex="${a}|${b}" title="${t().remove}">✕</button></div>`).join('') : `<p class="muted" style="margin:0">${t().noExclusions}</p>`}
+      <div class="grid2" style="margin-top:12px">
+        <select id="xa">${ps.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join('')}</select>
+        <select id="xb">${ps.map((p,i) => `<option value="${p.id}" ${i === 1 ? 'selected' : ''}>${esc(p.name)}</option>`).join('')}</select>
+      </div>
+      <button class="btn ghost block" id="addEx">↔ ${t().exclude}</button>
+    </div>`}
+
+    <h2>${t().familyLink}</h2>
+    <div class="card">
+      <p class="muted small" style="margin-top:0">${t().familyLinkText}</p>
+      <div class="row">
+        <button class="btn sm green" id="shareJoin">📤 ${t().share}</button>
+        <a class="btn sm ghost" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(t().familyMsg(ev.name, joinUrl))}">💬 ${t().whatsapp}</a>
+      </div>
+    </div>
+
+    <div style="margin-top:24px">
+      ${ev.drawn
+        ? `<div class="notice">🎉 ${t().drawnInfo}</div><button class="btn ghost block" style="background:#fff" id="reset">${t().reset}</button>`
+        : `<button class="btn block" id="draw">${t().draw}</button>`}
+    </div>`;
+
+  const $ = id => document.getElementById(id);
+  $('saveEv').onclick = async () => { if (await adminDo('admin_update_event', { p_name:$('en').value, p_budget:$('eb').value, p_date:$('ed').value || null })) toast(t().saved); };
+  $('shareJoin').onclick = () => shareText(t().familyMsg(ev.name, joinUrl));
+  app.querySelectorAll('[data-copy]').forEach(b => b.onclick = () => copy(b.dataset.copy));
+  app.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => { editing = editing === b.dataset.edit ? null : b.dataset.edit; renderAdmin(); });
+  app.querySelectorAll('[data-done]').forEach(b => b.onclick = () => { editing = null; renderAdmin(); });
+  app.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { editing = null; adminDo('admin_remove', { p_id:b.dataset.rm }, t().confirmRemove(byId[b.dataset.rm].name)); });
+  const pickTeam = sel => { if (sel.value !== '__new') return sel.value; const v = prompt(t().group); return v === null ? undefined : v; };
+  app.querySelectorAll('[data-team]').forEach(s => s.onchange = () => {
+    const v = pickTeam(s); if (v === undefined) { renderAdmin(); return; }
+    const p = byId[s.dataset.team]; adminDo('admin_set_participant', { p_id:p.id, p_lang:p.lang, p_team:v });
+  });
+  app.querySelectorAll('[data-lang]').forEach(s => s.onchange = () => {
+    const p = byId[s.dataset.lang]; adminDo('admin_set_participant', { p_id:p.id, p_lang:s.value, p_team:p.team || '' });
+  });
+  if ($('af')) $('af').onsubmit = async (e) => {
+    e.preventDefault();
+    const team = pickTeam($('at')); if (team === undefined) return;
+    try { await rpc('admin_add', { p_admin:params().get('a'), p_name:$('an').value, p_lang:$('al').value, p_team:team }); await reloadAdmin(); }
+    catch(err){ toast(errText(err)); }
+  };
+  app.querySelectorAll('[data-unex]').forEach(b => b.onclick = () => { const [a,c] = b.dataset.unex.split('|'); adminDo('admin_set_exclusion', { p_a:a, p_b:c, p_on:false }); });
+  if ($('addEx')) $('addEx').onclick = () => { if ($('xa').value !== $('xb').value) adminDo('admin_set_exclusion', { p_a:$('xa').value, p_b:$('xb').value, p_on:true }); };
+  if ($('draw')) $('draw').onclick = async () => { if (await adminDo('admin_draw', {}, t().confirmDraw)) toast(t().drawn); };
+  if ($('reset')) $('reset').onclick = () => adminDo('admin_reset_draw', {}, t().confirmReset);
+}
+
+route();
+</script>
+</body>
+</html>
