@@ -134,10 +134,7 @@ const T = {
     stepsTitle: 'So geht\'s',
     step1: 'Tippe unten auf deinen Namen.',
     step2: 'Bestätige mit „OK“.',
-    step3: 'Fertig! Nach der Auslosung öffnest du diesen Link wieder – auf demselben Handy – und tippst auf das Geschenk 🎁.',
-    beforeDraw: '⚠️ Wichtig: Bitte tippe deinen Namen VOR der Auslosung an. Danach ist die Liste gesperrt, damit niemand spicken kann.',
-    claimClosed: 'Die Auslosung hat schon stattgefunden – die Namensliste ist gesperrt, damit niemand spicken kann. Wenn du dich vorher angemeldet hast, öffne diesen Link auf demselben Handy wie damals. Sonst frag Paola nach deinem persönlichen Link.',
-    drawMissing: names => `Noch nicht angemeldet: ${names}\n\nNach der Auslosung kann sich niemand mehr selbst anmelden – diesen Personen musst du dann ihren persönlichen Link einzeln schicken (📤).\n\nTrotzdem jetzt auslosen?`,
+    step3: 'Fertig! Nach der Auslosung öffnest du diesen Link wieder und tippst auf das Geschenk 🎁.',
     groupMsgTitle: '✉️ Nachricht für die Familie',
     groupMsgText: 'Fertiger Text mit Erklärung auf Spanisch und Deutsch – einfach kopieren und in WhatsApp oder Signal einfügen.',
     copyBoth: 'Beide Sprachen kopieren', copyEs: 'Nur Spanisch', copyDe: 'Nur Deutsch',
@@ -224,10 +221,7 @@ const T = {
     stepsTitle: 'Así funciona',
     step1: 'Toca tu nombre aquí abajo.',
     step2: 'Confirma con «Aceptar».',
-    step3: '¡Listo! Después del sorteo vuelves a abrir este enlace – en el mismo celular – y tocas el regalo 🎁.',
-    beforeDraw: '⚠️ Importante: Toca tu nombre ANTES del sorteo. Después la lista se bloquea para que nadie pueda espiar.',
-    claimClosed: 'El sorteo ya se realizó – la lista de nombres está bloqueada para que nadie pueda espiar. Si te inscribiste antes, abre este enlace en el mismo celular. Si no, pídele a Paola tu enlace personal.',
-    drawMissing: names => `Todavía no inscritos: ${names}\n\nDespués del sorteo nadie se puede inscribir solo – a estas personas les tienes que enviar su enlace personal (📤).\n\n¿Sortear de todas formas?`,
+    step3: '¡Listo! Después del sorteo vuelves a abrir este enlace y tocas el regalo 🎁.',
     groupMsgTitle: '✉️ Mensaje para la familia',
     groupMsgText: 'Texto listo con la explicación en español y alemán – solo cópialo y pégalo en WhatsApp o Signal.',
     copyBoth: 'Copiar los dos idiomas', copyEs: 'Solo español', copyDe: 'Solo alemán',
@@ -321,7 +315,7 @@ async function rpc(fn, args){
   return txt ? JSON.parse(txt) : null;
 }
 function errText(e){
-  const map = { not_found:'notFound', name_taken:'nameTaken', name_required:'nameRequired', already_drawn:'alreadyDrawn', already_claimed:'alreadyClaimed', claim_closed:'claimClosed', too_few:'tooFew', impossible:'impossible' };
+  const map = { not_found:'notFound', name_taken:'nameTaken', name_required:'nameRequired', already_drawn:'alreadyDrawn', already_claimed:'alreadyClaimed', too_few:'tooFew', impossible:'impossible' };
   return t()[map[e.code]] || t().error;
 }
 function toast(msg){
@@ -355,9 +349,9 @@ Este año hacemos el Amigo Secreto con una página sencilla que hice especialmen
 
 Así funciona:
 1. Abre este enlace: ${url}
-2. Toca tu nombre y confirma con «Aceptar». ⚠️ Por favor hazlo ANTES del sorteo – después la lista se bloquea para que nadie pueda espiar.
+2. Toca tu nombre y confirma con «Aceptar».
 3. Si quieres, escribe una pista para tu regalo (pasatiempos, talla, color favorito …).
-4. Después del sorteo te aviso. Entonces vuelves a abrir el mismo enlace en el mismo celular y tocas el regalo 🎁 – ahí ves a quién le das el regalo.
+4. Después del sorteo te aviso. Entonces vuelves a abrir el mismo enlace y tocas el regalo 🎁 – ahí ves a quién le das el regalo.
 ${b ? `\nEl regalo debe costar exactamente ${b}.` : ''}${dt ? `\nEntrega de regalos: ${dt}.` : ''}
 
 Arriba en la página puedes cambiar el idioma entre español y alemán.
@@ -369,9 +363,9 @@ Dieses Jahr machen wir unser Wichteln über eine einfache Seite, die ich extra f
 
 So geht's:
 1. Diesen Link öffnen: ${url}
-2. Auf deinen Namen tippen und mit „OK“ bestätigen. ⚠️ Bitte VOR der Auslosung – danach wird die Liste gesperrt, damit niemand spicken kann.
+2. Auf deinen Namen tippen und mit „OK“ bestätigen.
 3. Wenn du magst, einen Geschenkhinweis schreiben (Hobbys, Größe, Lieblingsfarbe …).
-4. Nach der Auslosung sage ich Bescheid. Dann denselben Link auf demselben Handy nochmal öffnen und auf das Geschenk 🎁 tippen – dort siehst du, wen du beschenkst.
+4. Nach der Auslosung sage ich Bescheid. Dann denselben Link nochmal öffnen und auf das Geschenk 🎁 tippen – dort siehst du, wen du beschenkst.
 ${b ? `\nDas Geschenk soll genau ${b} kosten.` : ''}${dt ? `\nGeschenkübergabe: ${dt}.` : ''}
 
 Oben auf der Seite kann man die Sprache zwischen Spanisch und Deutsch wechseln.
@@ -383,13 +377,13 @@ const bothMsg = (ev, url) => groupMsg('es', ev, url) + '\n\n— — — — —\
 function drawnMsg(l, url){
   if (l === 'es') return `🎉 ¡Ya se hizo el sorteo del Amigo Secreto! 🎁
 
-Abre el mismo enlace de antes en el mismo celular con el que te inscribiste y toca el regalo 🎁 – ahí ves a quién le das el regalo:
+Abre el mismo enlace de antes y toca el regalo 🎁 – ahí ves a quién le das el regalo:
 ${url}
 
 ¡Shhh… no se lo digas a nadie! 🤫`;
   return `🎉 Die Wichtel-Auslosung ist fertig! 🎁
 
-Öffne denselben Link wie vorher auf dem Handy, mit dem du dich angemeldet hast, und tippe auf das Geschenk 🎁 – dort siehst du, wen du beschenkst:
+Öffne denselben Link wie vorher und tippe auf das Geschenk 🎁 – dort siehst du, wen du beschenkst:
 ${url}
 
 Pssst… nicht verraten! 🤫`;
@@ -539,16 +533,14 @@ function renderJoin(){
     <div class="card">
       <p class="label" style="font-size:18px">${t().stepsTitle}</p>
       <ol class="steps"><li>${t().step1}</li><li>${t().step2}</li><li>${t().step3}</li></ol>
-      ${ev.drawn ? '' : `<p class="notice" style="margin:10px 0 0;font-size:17px">${t().beforeDraw}</p>`}
     </div>
-    ${ev.drawn ? `<div class="card notice" style="font-size:19px">🔒 ${t().claimClosed}</div>` : `
     <h2>👇 ${t().whoAreYou}</h2>
     <div class="card">
       ${free.length ? `<div class="grid2" style="margin:0">${free.map(p => `<button class="btn ghost" data-claim="${p.id}" style="min-height:64px;font-size:20px">${esc(p.name)}</button>`).join('')}</div>`
                     : `<p class="muted" style="margin:0">${t().allClaimed}</p>`}
       ${taken.length ? `<p class="small muted" style="margin:14px 0 0">🔒 ${t().alreadyIn}: ${taken.map(p => esc(p.name)).join(', ')}</p>
         <p class="small muted" style="margin:4px 0 0">${t().claimedHelp}</p>` : ''}
-    </div>`}
+    </div>
     ${infoCards(ev, d.people.length)}
     ${ev.drawn ? '' : `
     <details class="card"><summary>➕ ${t().notInList}</summary>
@@ -735,10 +727,7 @@ function renderAdmin(){
   };
   app.querySelectorAll('[data-unex]').forEach(b => b.onclick = () => { const [a,c] = b.dataset.unex.split('|'); adminDo('admin_set_exclusion', { p_a:a, p_b:c, p_on:false }); });
   if ($('addEx')) $('addEx').onclick = () => { if ($('xa').value !== $('xb').value) adminDo('admin_set_exclusion', { p_a:$('xa').value, p_b:$('xb').value, p_on:true }); };
-  if ($('draw')) $('draw').onclick = async () => {
-    const missing = ps.filter(p => !p.claimed).map(p => p.name);
-    if (await adminDo('admin_draw', {}, missing.length ? t().drawMissing(missing.join(', ')) : t().confirmDraw)) toast(t().drawn);
-  };
+  if ($('draw')) $('draw').onclick = async () => { if (await adminDo('admin_draw', {}, t().confirmDraw)) toast(t().drawn); };
   if ($('reset')) $('reset').onclick = () => adminDo('admin_reset_draw', {}, t().confirmReset);
 }
 
