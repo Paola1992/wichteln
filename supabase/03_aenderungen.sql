@@ -40,3 +40,5 @@ begin
   if e.drawn_at is not null then raise exception 'already_drawn'; end if;
   update public.participants set claimed_at = null, token = private.tok() where id = p.id;
 end $$;
+
+-- 5) Anti-Spicken: Namen antippen nur VOR der Auslosung (family_claim wirft danach 'claim_closed').
