@@ -144,7 +144,7 @@ const T = {
     secret: 'Pssst… nicht verraten! 🤫',
     myWish: 'Mein Geschenkhinweis', myWishHint: 'Hilf deinem Wichtel mit einem kleinen Tipp: Hobbys, Lieblingsfarbe, Größe, was du gar nicht magst … (optional)',
     wishPh: 'z. B. Ich koche gern, mag Blau, Schuhgröße 39, bitte keine Süßigkeiten …',
-    myName: 'Mein Name', myNameHint: 'So sehen dich die anderen. Du kannst ihn jederzeit ändern.', nameSaved: 'Name geändert ✓', nameInUse: 'Diesen Namen hat schon jemand anderes. Füg z. B. den Nachnamen hinzu.',
+    myName: 'Mein Name', myNameHint: 'Nur um die Schreibweise zu ändern (z. B. mit Nachnamen). Falschen Namen angetippt? Dann unten auf „Nicht …?“ tippen.', nameSaved: 'Name geändert ✓', nameInUse: 'Diesen Namen hat schon jemand anderes. Füg z. B. den Nachnamen hinzu.',
     save: 'Speichern', saved: 'Gespeichert ✓',
     keepLink: 'Das ist dein persönlicher Link. Speichere ihn oder füge ihn zum Startbildschirm hinzu – mehr brauchst du nicht.',
     copyLink: 'Meinen Link kopieren', copied: 'Link kopiert ✓',
@@ -173,7 +173,8 @@ const T = {
     claimedHelp: 'Dein Name ist gesperrt, du warst es aber nicht? Sag der Organisatorin Bescheid.',
     notInList: 'Mein Name fehlt – neu eintragen',
     alreadyClaimed: 'Dieser Name wurde gerade schon von jemandem angetippt. Wenn du das bist, sag der Organisatorin Bescheid.',
-    notMe: n => `Nicht ${n}? Anderen Namen wählen`,
+    notMe: n => `Ich bin nicht ${n}`,
+    confirmNotMe: n => `Du bist nicht ${n}?\n\nDann wird der Name ${n} wieder freigegeben und du kannst deinen richtigen Namen antippen.`,
     claimedPill: 'angemeldet ✓', notClaimedPill: 'noch nicht angemeldet',
     release: 'Namen freigeben',
     confirmRelease: n => `Namen „${n}“ wieder freigeben? Der bisherige persönliche Link von ${n} funktioniert danach nicht mehr – ${n} tippt einfach im Familien-Link nochmal auf den eigenen Namen.`,
@@ -193,7 +194,8 @@ const T = {
     noExclusions: 'Keine zusätzlichen Ausschlüsse.',
     exclude: 'Ausschließen',
     draw: 'Jetzt auslosen 🎲', confirmDraw: 'Jetzt auslosen? Danach kann niemand mehr hinzugefügt werden.',
-    drawnInfo: 'Ausgelost! Schick jetzt allen ihren Link – wer schon nachgeschaut hat, siehst du in der Liste.',
+    drawnInfo: 'Ausgelost! Die Seite verschickt selbst keine Benachrichtigung – schick jetzt die Nachricht unten in die Familiengruppe. Wer schon nachgeschaut hat, siehst du in der Liste (👀).',
+    drawnMsgTitle: 'Nachricht „Es ist ausgelost“', drawnMsgText: 'Auf Spanisch und Deutsch – in WhatsApp und Signal einfügen.',
     reset: 'Auslosung zurücksetzen',
     confirmReset: 'Wirklich zurücksetzen? Alle Zuteilungen werden gelöscht und es muss neu ausgelost werden.',
     tooFew: 'Es braucht mindestens 3 Teilnehmer.',
@@ -229,7 +231,7 @@ const T = {
     secret: '¡Shhh… no se lo digas a nadie! 🤫',
     myWish: 'Mi pista para el regalo', myWishHint: 'Ayuda a tu amigo secreto con una pista: pasatiempos, color favorito, talla, lo que no te gusta … (opcional)',
     wishPh: 'p. ej. Me gusta cocinar, mi color es el azul, calzo 39, nada de dulces por favor …',
-    myName: 'Mi nombre', myNameHint: 'Así te ven los demás. Lo puedes cambiar cuando quieras.', nameSaved: 'Nombre cambiado ✓', nameInUse: 'Otra persona ya tiene ese nombre. Agrega p. ej. el apellido.',
+    myName: 'Mi nombre', myNameHint: 'Solo para cambiar cómo se escribe (p. ej. con apellido). ¿Tocaste el nombre equivocado? Entonces toca abajo «¿No eres …?».', nameSaved: 'Nombre cambiado ✓', nameInUse: 'Otra persona ya tiene ese nombre. Agrega p. ej. el apellido.',
     save: 'Guardar', saved: 'Guardado ✓',
     keepLink: 'Este es tu enlace personal. Guárdalo o agrégalo a la pantalla de inicio – no necesitas nada más.',
     copyLink: 'Copiar mi enlace', copied: 'Enlace copiado ✓',
@@ -255,7 +257,8 @@ const T = {
     claimedHelp: '¿Tu nombre está bloqueado pero no fuiste tú? Avísale a la organizadora.',
     notInList: 'Mi nombre no está – inscribirme',
     alreadyClaimed: 'Alguien acaba de tocar este nombre. Si eres tú, avísale a la organizadora.',
-    notMe: n => `¿No eres ${n}? Elegir otro nombre`,
+    notMe: n => `Yo no soy ${n}`,
+    confirmNotMe: n => `¿No eres ${n}?\n\nEntonces el nombre ${n} queda libre otra vez y puedes tocar tu nombre correcto.`,
     claimedPill: 'inscrito ✓', notClaimedPill: 'todavía no inscrito',
     release: 'Liberar nombre',
     confirmRelease: n => `¿Liberar el nombre «${n}»? El enlace personal anterior de ${n} ya no funcionará – ${n} solo vuelve a tocar su nombre en el enlace familiar.`,
@@ -275,7 +278,8 @@ const T = {
     noExclusions: 'No hay exclusiones adicionales.',
     exclude: 'Excluir',
     draw: 'Sortear ahora 🎲', confirmDraw: '¿Sortear ahora? Después ya no se puede agregar a nadie.',
-    drawnInfo: '¡Sorteo hecho! Envíale a cada uno su enlace – en la lista ves quién ya miró.',
+    drawnInfo: '¡Sorteo hecho! La página no envía avisos sola – envía ahora el mensaje de abajo al grupo de la familia. En la lista ves quién ya miró (👀).',
+    drawnMsgTitle: 'Mensaje «Ya se hizo el sorteo»', drawnMsgText: 'En español y alemán – pégalo en WhatsApp y Signal.',
     reset: 'Reiniciar el sorteo',
     confirmReset: '¿Seguro? Se borran todas las asignaciones y hay que sortear de nuevo.',
     tooFew: 'Se necesitan al menos 3 participantes.',
@@ -370,6 +374,22 @@ Liebe Grüße, Paola`;
 }
 const bothMsg = (ev, url) => groupMsg('es', ev, url) + '\n\n— — — — —\n\n' + groupMsg('de', ev, url);
 
+function drawnMsg(l, url){
+  if (l === 'es') return `🎉 ¡Ya se hizo el sorteo del Amigo Secreto! 🎁
+
+Abre el mismo enlace de antes y toca el regalo 🎁 – ahí ves a quién le das el regalo:
+${url}
+
+¡Shhh… no se lo digas a nadie! 🤫`;
+  return `🎉 Die Wichtel-Auslosung ist fertig! 🎁
+
+Öffne denselben Link wie vorher und tippe auf das Geschenk 🎁 – dort siehst du, wen du beschenkst:
+${url}
+
+Pssst… nicht verraten! 🤫`;
+}
+const bothDrawnMsg = url => drawnMsg('es', url) + '\n\n— — — — —\n\n' + drawnMsg('de', url);
+
 function setLang(l, persist){
   lang = l; store.set('lang', l);
   document.documentElement.lang = l;
@@ -404,6 +424,7 @@ async function route(){
     else { view.name = 'home'; view.data = null; }
   } catch(e){
     if (p.get('p') && store.get('me') === p.get('p')) store.set('me', '');
+    if (p.get('p') && e.code === 'not_found' && store.get('family')) { location.hash = 'j=' + store.get('family'); return; }
     view.name = 'error'; view.data = errText(e);
   }
   setLang(lang);
@@ -470,7 +491,7 @@ function renderMe(){
     <div class="card">
       <p class="small muted" style="margin-top:0">🔖 ${t().keepLink}</p>
       <button class="btn ghost block" id="copyMe">${t().copyLink}</button>
-      ${store.get('family') ? `<p class="center small" style="margin:14px 0 0"><a href="#" id="notMe" style="color:var(--muted)">${t().notMe(d.name)}</a></p>` : ''}
+      ${ev.drawn ? '' : `<button class="btn ghost block" id="notMe">↩️ ${t().notMe(d.name)}</button>`}
     </div>`;
   const g = document.getElementById('gift');
   if (g) g.onclick = () => { g.classList.add('shake'); setTimeout(() => { revealed = true; renderMe(); rpc('me_seen', { p_token:tok }).catch(()=>{}); }, 600); };
@@ -482,7 +503,12 @@ function renderMe(){
   };
   document.getElementById('copyMe').onclick = () => copy(myUrl);
   const nm = document.getElementById('notMe');
-  if (nm) nm.onclick = (e) => { e.preventDefault(); store.set('me', ''); revealed = false; location.hash = 'j=' + store.get('family'); };
+  if (nm) nm.onclick = async () => {
+    if (!confirm(t().confirmNotMe(d.name))) return;
+    try { await rpc('me_unclaim', { p_token:tok }); } catch(err){ toast(errText(err)); return; }
+    store.set('me', ''); revealed = false;
+    location.hash = store.get('family') ? 'j=' + store.get('family') : '';
+  };
   document.getElementById('saveName').onclick = async (e) => {
     e.target.disabled = true;
     try {
@@ -659,13 +685,23 @@ function renderAdmin(){
 
     <div style="margin-top:24px">
       ${ev.drawn
-        ? `<div class="notice">🎉 ${t().drawnInfo}</div><button class="btn ghost block" style="background:#fff" id="reset">${t().reset}</button>`
+        ? `<div class="notice">🎉 ${t().drawnInfo}</div>
+           <div class="card"><b>📣 ${t().drawnMsgTitle}</b>
+             <p class="muted small" style="margin:2px 0 0">${t().drawnMsgText}</p>
+             <div class="msgbox">${esc(bothDrawnMsg(joinUrl))}</div>
+             <div class="row">
+               <button class="btn sm green" id="shareDrawn">📤 ${t().share}</button>
+               <button class="btn sm ghost" id="copyDrawn">📋 ${t().copyBoth}</button>
+               <a class="btn sm ghost" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(bothDrawnMsg(joinUrl))}">💬 ${t().whatsapp}</a>
+             </div></div>
+           <button class="btn ghost block" style="background:#fff" id="reset">${t().reset}</button>`
         : `<button class="btn block" id="draw">${t().draw}</button>`}
     </div>`;
 
   const $ = id => document.getElementById(id);
   $('saveEv').onclick = async () => { if (await adminDo('admin_update_event', { p_name:$('en').value, p_budget:$('eb').value, p_date:$('ed').value || null })) toast(t().saved); };
   $('shareJoin').onclick = () => shareText(bothMsg(ev, joinUrl));
+  if ($('shareDrawn')) { $('shareDrawn').onclick = () => shareText(bothDrawnMsg(joinUrl)); $('copyDrawn').onclick = () => copy(bothDrawnMsg(joinUrl)); }
   $('copyJoin').onclick = () => copy(bothMsg(ev, joinUrl));
   $('copyEs').onclick = () => copy(groupMsg('es', ev, joinUrl));
   $('copyDe').onclick = () => copy(groupMsg('de', ev, joinUrl));
