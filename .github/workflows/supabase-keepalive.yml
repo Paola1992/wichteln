@@ -1,0 +1,29 @@
+# Hält die Supabase-Datenbank des Familien-Wichtelns wach.
+# Kostenlose Supabase-Projekte werden nach ca. 1 Woche ohne Zugriff pausiert.
+# Dieser Job ruft alle 2 Tage eine harmlose Lese-Funktion auf (ändert keine Daten).
+# Nach dem 6. Januar 2027 tut er nichts mehr und kann gelöscht werden.
+name: Supabase wach halten
+
+on:
+  schedule:
+    - cron: "17 9 */2 * *"   # alle 2 Tage, 09:17 UTC
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Supabase anpingen
+        run: |
+          if [ "$(date -u +%Y%m%d)" -gt 20270106 ]; then
+            echo "Wichteln vorbei – nichts zu tun."; exit 0
+          fi
+          code=$(curl -sS -o /tmp/out.txt -w '%{http_code}' -X POST \
+            "https://neiukaldogxbqohwfsmc.supabase.co/rest/v1/rpc/join_info" \
+            -H "apikey: sb_publishable_-sFBxKXoAbARk6j4t7zBDw_LXqitKwi" \
+            -H "Content-Type: application/json" \
+            -d '{"p_code":"keepalive"}')
+          echo "HTTP $code"; cat /tmp/out.txt; echo
+          # 400 'not_found' ist erwartet: die Datenbank hat geantwortet = wach.
+          if [ "$code" = "200" ] || [ "$code" = "400" ]; then exit 0; fi
+          echo "Datenbank antwortet nicht – evtl. pausiert. Bitte im Supabase-Dashboard 'Restore' klicken."; exit 1
